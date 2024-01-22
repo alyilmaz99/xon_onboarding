@@ -1,0 +1,23 @@
+git clone link : repo klonlondu
+git branch feature: feature adinda yeni bir repo olusturuldu
+git checkout feature: feature branche gecis yapildi
+git branch: hangi branchte oldugumuz kontrol edildi
+nano feature.txt: feature.txt olusturuldu ve icine content eklendi
+git add . : tum degisiklikler eklendi
+git commit -m "add feature.txt": tum degisiklikler commitlendi
+git push origin feature: feature branche commit pushlandi
+create pr and merge from github: pr olusturuldu ve mergelendi
+git checkout main: main branch e gecildi
+git branch -d feature : feature branch silindi
+git branch: branchler kontrol edildi
+git branch bugfix: bugfix branch olusturuldu
+git checkout bugfix: bugfix branche gecis yapildi
+nano bugfix.txt add some content: bugfix.txt olusturuldu ve icine content eklendi
+git add . : tum degisiklikler eklendi
+git commit -m "add bugfix.txt": degisiklikler commitlendi
+git push origin bugfix: commitler pushlandi
+create pr and merge from github: pr olusturuldu ve mergelendi
+git checkout main: main e gecildi
+git branch -d bugfix: bugfix branch silindi
+git branch: branch durumu kontrol edildi
+
