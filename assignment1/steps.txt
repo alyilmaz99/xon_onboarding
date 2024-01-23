@@ -8,7 +8,7 @@ git commit -m "add feature.txt": tum degisiklikler commitlendi
 git push origin feature: feature branche commit pushlandi
 create pr and merge from github: pr olusturuldu ve mergelendi
 git checkout main: main branch e gecildi
-git branch -d feature : feature branch silindi
+git push origin --delete feature : feature branch silindi
 git branch: branchler kontrol edildi
 git branch bugfix: bugfix branch olusturuldu
 git checkout bugfix: bugfix branche gecis yapildi
@@ -18,6 +18,6 @@ git commit -m "add bugfix.txt": degisiklikler commitlendi
 git push origin bugfix: commitler pushlandi
 create pr and merge from github: pr olusturuldu ve mergelendi
 git checkout main: main e gecildi
-git branch -d bugfix: bugfix branch silindi
+git push origin --delete bugfix: bugfix branch silindi
 git branch: branch durumu kontrol edildi
 
