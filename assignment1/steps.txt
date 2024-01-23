@@ -1,5 +1,5 @@
-git clone link : repo klonlondu
-git branch feature: feature adinda yeni bir repo olusturuldu
+git clone link : repo klonlandi
+git branch feature: feature adinda yeni bir branch olusturuldu
 git checkout feature: feature branche gecis yapildi
 git branch: hangi branchte oldugumuz kontrol edildi
 nano feature.txt: feature.txt olusturuldu ve icine content eklendi
