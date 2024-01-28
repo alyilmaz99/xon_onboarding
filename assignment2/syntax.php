@@ -1,42 +1,5 @@
 <?php 
-$names = "ali furkan ogun";
-$array = explode(' ',$names);
-foreach ($array as $value) {
-  
-    echo $value . "\n";
-}
 
-echo is_array($array) . "\n";
-var_dump($array);
-echo "String of names: ". implode(" ",$array) . "\n";
-
-$stringLorem = "Lorem ipsum dolor sit amet consectetur adipiscing elit nec, interdum lectus urna posuere orci et vel morbi";
-$chars = preg_split('//',$stringLorem,-1,PREG_SPLIT_NO_EMPTY);
-print_r($chars);
-$chars2 = preg_split('/ /', $stringLorem, -1, PREG_SPLIT_OFFSET_CAPTURE);
-
-print_r($chars2);
-unset($chars2);
-unset($chars);
-
-array_pop($array);
-print_r($array);
-array_push($array, 'ogun');
-print_r($array);
-
-echo count($array). "\n";
-
-$ogunKey = array_search('ogun', $array);
-echo "ogun key from array of names: " . $ogunKey  . "\n";
-
-$array2 = array("isim" => "ali" , "yas" => 12, "boy" => 180 , "egitim" => "ilkokul");
-print_r(array_values($array2));
-print_r(array_keys($array2));
-
-echo  array_key_exists('isim',$array2) ? "key mevcut \n" : 'key mevcut degil! \n';
-
-
-die();
 $varAli = "Ali";
 echo "Merhaba \n";
 echo "My name is $varAli \n ";
@@ -144,3 +107,90 @@ function calculateAreaForGivenNumber(){
 
 calculateAreaForGivenNumber();
 
+$names = "ali furkan ogun";
+$array = explode(' ',$names);
+foreach ($array as $value) {
+  
+    echo $value . "\n";
+}
+
+echo is_array($array) . "\n";
+var_dump($array);
+echo "String of names: ". implode(" ",$array) . "\n";
+
+$stringLorem = "Lorem ipsum dolor sit amet consectetur adipiscing elit nec, interdum lectus urna posuere orci et vel morbi";
+$chars = preg_split('//',$stringLorem,-1,PREG_SPLIT_NO_EMPTY);
+print_r($chars);
+$chars2 = preg_split('/ /', $stringLorem, -1, PREG_SPLIT_OFFSET_CAPTURE);
+
+print_r($chars2);
+unset($chars2);
+unset($chars);
+
+array_pop($array);
+print_r($array);
+array_push($array, 'ogun');
+print_r($array);
+
+echo count($array). "\n";
+
+$ogunKey = array_search('ogun', $array);
+echo "ogun key from array of names: " . $ogunKey  . "\n";
+
+$array2 = array("isim" => "ali" , "yas" => 12, "boy" => 180 , "egitim" => "ilkokul");
+print_r(array_values($array2));
+print_r(array_keys($array2));
+
+echo  array_key_exists('isim',$array2) ? "key mevcut \n" : 'key mevcut degil! \n';
+asort($array2);
+
+print_r($array2);
+krsort($array);
+print_r($array);
+
+$arr = ['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4];
+
+var_dump(array_filter($arr, function($k) {
+    return $k == 'b';
+}, ARRAY_FILTER_USE_KEY));
+
+var_dump(array_filter($arr, function($v, $k) {
+    return $k == 'b' || $v == 4;
+}, ARRAY_FILTER_USE_BOTH));
+
+
+$stringWithName = "Benim adim ali yilmaz";
+
+echo strlen($stringWithName) . "\n";
+
+$substring = substr($stringWithName, 11, 3);
+echo "Name is ". $substring . "\n";
+
+$position = strpos($stringWithName, "ali");
+echo "Position of ali " . $position . "\n";
+
+$occurrence = strstr($stringWithName, "ali");
+echo "Occurrence : ". $occurrence. "\n";
+$replaced = str_replace("ali", "ogun", $stringWithName);
+echo "Change ali to ogun : " .$replaced . "\n"; 
+
+$lowercase = strtolower($stringWithName);
+echo "LoweCase: " . $lowercase . "\n"; 
+
+$uppercase = strtoupper($stringWithName);
+echo "Upper Case : " . $uppercase . "\n"; 
+
+if (preg_match("/ali/", $stringWithName)) {
+    echo "string contains 'ali'. \n";
+} else {
+    echo "ali cant found in string.\n";
+}
+
+$replaced = preg_replace("/ali/", "ogun", $stringWithName);
+echo $replaced . "\n";
+
+$words = preg_split("/\s+/", $stringWithName);
+print_r($words);
+
+$reversed = strrev($stringWithName);
+echo "reversed : " .$reversed . "\n";
