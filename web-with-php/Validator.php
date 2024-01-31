@@ -85,7 +85,7 @@ class Validator
     public function response($isValid = false, $errorMessage = null, $data = ''): array
     {
 
-        $isValid == false  ? $this->isValid = false : null;
+        $isValid == false  ? $this->isValid = false : $this->isValid = true;
         return ['isValid' => $isValid, 'error' => $errorMessage, 'data' => htmlentities($data)];
     }
 }

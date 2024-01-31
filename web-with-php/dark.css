@@ -1,9 +1,11 @@
 body {
   margin: auto;
   width: 50%;
-  border: 1px solid black;
+  border: 1px solid white; /* Beyaz sınır */
   padding: 10px;
   margin-top: 50px;
+  background-color: #333; /* Karanlık arka plan */
+  color: white; /* Beyaz metin */
 }
 
 .container {
@@ -22,10 +24,14 @@ form {
 form label {
   font-weight: 600;
   font-family: "Courier New", Courier, monospace;
+  color: white;
 }
 
 form input {
   font-family: "Courier New", Courier, monospace;
+  background-color: #444;
+  color: white;
+  border: 1px solid #555;
 }
 
 .submit {
@@ -33,10 +39,16 @@ form input {
   margin-bottom: 10px;
   font-size: 20px;
   margin-top: 10px;
+  background-color: #007bff;
+  color: white;
+  border: 1px solid #007bff;
 }
 
 td {
   padding: 10px;
+  background-color: #444;
+  color: white;
+  border: 1px solid #555;
 }
 
 table {
@@ -47,10 +59,11 @@ table {
 
 th,
 td {
-  border: 1px solid black;
+  border: 1px solid white;
   padding: 8px;
   text-align: left;
 }
+
 table {
   margin-top: 30px;
 }

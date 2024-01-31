@@ -1,10 +1,14 @@
 <?php
 ini_set('display_errors', 1);
-ini_set('session.gc_maxlifetime', 10 * 60 * 60);
+ini_set('session.gc_maxlifetime', 10 * 60 * 60 * 60);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 session_start();
 
+if (isset($_SESSION['name'])) {
+    header('Location: info.view.php');
+    exit();
+}
 
 include_once 'Validator.php';
 
@@ -18,9 +22,15 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
     $website = $validator->websiteValidation($_POST["website"]);
 
     if ($validator->isValid) {
+        $_SESSION['name']  = $name['data'];
+        $_SESSION['email'] = $email['data'];
+        $_SESSION['lastname'] = $lastname['data'];
+        $_SESSION['age'] = $age['data'];
+        $_SESSION['website'] = $website['data'];
+        header('Location: info.view.php');
+        exit();
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
     <title>Web Development With Php</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="<?php echo isset($_COOKIE['theme']) && $_COOKIE['theme'] == 'dark' ?  "dark.css" : "style.css"; ?>">
 
 </head>
 
@@ -58,8 +68,6 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
                 <input class="submit" type="submit" value="Submit">
             </form>
         </div>
-
-        </>
 
 </body>
 
