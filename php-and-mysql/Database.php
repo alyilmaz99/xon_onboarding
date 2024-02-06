@@ -21,7 +21,7 @@ class Database
         $this->password = $password;
     }
 
-    public static function initialize(string $host, string $name, string $user, string $password)
+    public static function Initialize(string $host, string $name, string $user, string $password)
     {
         if (!self::$instance) {
             self::$instance = new self(
@@ -36,9 +36,6 @@ class Database
 
     public static function getInstance()
     {
-        if (!self::$instance) {
-            throw new Exception("Database instance has not been initialized.");
-        }
         return self::$instance;
     }
 
@@ -48,7 +45,6 @@ class Database
         return new PDO($dsn, $this->user, $this->password, [
             PDO::ATTR_EMULATE_PREPARES => false,
             PDO::ATTR_STRINGIFY_FETCHES => false,
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         ]);
     }
 }

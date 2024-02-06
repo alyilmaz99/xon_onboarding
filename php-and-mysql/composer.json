@@ -1,0 +1,17 @@
+{
+    "name": "aly/php-and-mysql",
+    "autoload": {
+        "psr-4": {
+            "Aly\\PhpAndMysql\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "alyilmaz99",
+            "email": "aliyilmaz9977@gmail.com"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    }
+}
