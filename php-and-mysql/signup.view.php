@@ -3,6 +3,22 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+include_once 'Validator.php';
+$validator = Validator::getInstance();
+if ($_SERVER["REQUEST_METHOD"] == 'POST') {
+    $name = $validator->textValidation($_POST['name']);
+    $email = $validator->emailValidation($_POST["email"]);
+    $phone = $validator->phoneValidation($_POST["phone"]);
+
+    if ($validator->isValid) {
+        include_once 'login.controller.php';
+        $signUp =  new LoginController();
+
+
+        $signUp->signUp($name['data'], $email['data'], $_POST['password'], $phone['data']);
+    }
+}
+
 ?>
 
 
@@ -21,8 +37,11 @@ error_reporting(E_ALL);
     <div class="container">
         <div class="screen">
             <div class="screen__content">
-                <form class="login" action="login.controller.php" method="post">
-
+                <form class="login" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                    <div class="login__field">
+                        <input type="text" id="name" name="name" class="login__input"
+                            placeholder="<?php echo isset($name['data']) ? $name['data'] : 'Name'; ?>"><?php echo isset($name['isValid']) && $name['isValid'] === false ? $name['error'] : ""; ?>
+                    </div>
                     <div class="login__field">
                         <input type="password" id="password" name="password" class="login__input"
                             placeholder="Password">
@@ -31,13 +50,16 @@ error_reporting(E_ALL);
                         <input type="email" id="email" name="email" class="login__input"
                             placeholder="<?php echo isset($email['data']) ? $email['data'] : 'E-Mail'; ?>"><?php echo isset($mail['isValid']) && $mail['isValid'] === false ? $mail['error'] : ""; ?>
                     </div>
-
+                    <div class="login__field">
+                        <input type="phone" id="phone" name="phone" class="login__input"
+                            placeholder="<?php echo isset($phone['data']) ? $phone['data'] : 'Phone'; ?>"><?php echo isset($phone['isValid']) && $phone['isValid'] === false ? $phone['error'] : ""; ?>
+                    </div>
                     <button class="button login__submit">
-                        <span class="button__text">Login</span>
+                        <span class="button__text">Kayit Ol</span>
                         <i class="button__icon fas fa-chevron-right"></i>
                     </button>
-                    <button class="button login__submit" onclick="<?php header("Location: signup.view.php");  ?>">
-                        <span class="button__text">Kayit Ol</span>
+                    <button class="button login__submit" onclick="">
+                        <span class="button__text">Login</span>
                         <i class="button__icon fas fa-chevron-right"></i>
                     </button>
                 </form>

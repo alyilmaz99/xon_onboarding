@@ -1,5 +1,4 @@
 <?php
-
 $verification_code = $_GET['verification_code'];
 $email = $_GET['email'];
 
@@ -14,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!$stmt->execute()) {
         echo "hata";
     } else {
+
         header("Location: index.php");
         exit();
     }
