@@ -14,9 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
         include_once 'login.controller.php';
         $signUp =  new LoginController();
 
-        $_SESSION['name']  = $name['data'];
-        $_SESSION['email'] = $email['data'];
-        $_SESSION['phone'] = $phone['data'];
+
         $signUp->signUp($name['data'], $email['data'], $_POST['password'], $phone['data']);
     }
 }
@@ -41,16 +39,20 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
             <div class="screen__content">
                 <form class="login" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                     <div class="login__field">
-                        <input type="text" id="name" name="name" class="login__input" placeholder="<?php echo isset($name['data']) ? $name['data'] : 'Name'; ?>"><?php echo isset($name['isValid']) && $name['isValid'] === false ? $name['error'] : ""; ?>
+                        <input type="text" id="name" name="name" class="login__input"
+                            placeholder="<?php echo isset($name['data']) ? $name['data'] : 'Name'; ?>"><?php echo isset($name['isValid']) && $name['isValid'] === false ? $name['error'] : ""; ?>
                     </div>
                     <div class="login__field">
-                        <input type="password" id="password" name="password" class="login__input" placeholder="Password">
+                        <input type="password" id="password" name="password" class="login__input"
+                            placeholder="Password">
                     </div>
                     <div class="login__field">
-                        <input type="email" id="email" name="email" class="login__input" placeholder="<?php echo isset($email['data']) ? $email['data'] : 'E-Mail'; ?>"><?php echo isset($mail['isValid']) && $mail['isValid'] === false ? $mail['error'] : ""; ?>
+                        <input type="email" id="email" name="email" class="login__input"
+                            placeholder="<?php echo isset($email['data']) ? $email['data'] : 'E-Mail'; ?>"><?php echo isset($mail['isValid']) && $mail['isValid'] === false ? $mail['error'] : ""; ?>
                     </div>
                     <div class="login__field">
-                        <input type="phone" id="phone" name="phone" class="login__input" placeholder="<?php echo isset($phone['data']) ? $phone['data'] : 'Phone'; ?>"><?php echo isset($phone['isValid']) && $phone['isValid'] === false ? $phone['error'] : ""; ?>
+                        <input type="phone" id="phone" name="phone" class="login__input"
+                            placeholder="<?php echo isset($phone['data']) ? $phone['data'] : 'Phone'; ?>"><?php echo isset($phone['isValid']) && $phone['isValid'] === false ? $phone['error'] : ""; ?>
                     </div>
                     <button class="button login__submit">
                         <span class="button__text">Kayit Ol</span>

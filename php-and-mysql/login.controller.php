@@ -45,6 +45,8 @@ class LoginController
 
     public function emailSend(string $email, string $name, string $message)
     {
+        $link = "http://localhost/xon_onboarding/php-and-mysql/verify.view.php?verification_code=" . $message . "&email=" . $email;
+
         $mail = new PHPMailer(true);
         try {
             $mail->SMTPDebug = 0;
@@ -61,7 +63,7 @@ class LoginController
             $mail->Subject = "TODO PROJECT";
             $mail->Body = '<p style="font-size: 20px;">Sayin: '
                 . $name . '<br><br>' . $message .
-                '</p>';
+                $link . '</p>';
             $mail->send();
             return $message;
         } catch (Exception $e) {
