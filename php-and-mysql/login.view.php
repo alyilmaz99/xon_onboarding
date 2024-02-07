@@ -28,19 +28,20 @@ error_reporting(E_ALL);
                             placeholder="Password">
                     </div>
                     <div class="login__field">
-                        <input type="email" id="email" name="email" class="login__input"
-                            placeholder="<?php echo isset($email['data']) ? $email['data'] : 'E-Mail'; ?>"><?php echo isset($mail['isValid']) && $mail['isValid'] === false ? $mail['error'] : ""; ?>
+                        <input type="email" id="email" name="email" class="login__input" placeholder="Email">
                     </div>
 
-                    <button class="button login__submit">
+                    <button class="button login__submit" id="loginButton">
                         <span class="button__text">Login</span>
                         <i class="button__icon fas fa-chevron-right"></i>
                     </button>
-                    <button class="button login__submit" onclick="<?php header("Location: signup.view.php");  ?>">
-                        <span class="button__text">Kayit Ol</span>
-                        <i class="button__icon fas fa-chevron-right"></i>
-                    </button>
+
                 </form>
+                <div style="display: flex; justify-content: center">
+                    <p>
+                        <a href="signup.view.php">Kayit Ol</a>
+                    </p>
+                </div>
                 <div class="text">
                     <h3>Kayit Ol</h3>
                 </div>
@@ -56,3 +57,9 @@ error_reporting(E_ALL);
 </body>
 
 </html>
+
+<script>
+document.getElementById("kayitol").addEventListener("click", function() {
+    window.location.href = 'signup.view.php';
+});
+</script>

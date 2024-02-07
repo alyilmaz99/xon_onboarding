@@ -1,31 +1,36 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
+
 include_once 'Database.php';
 
+DB::Init();
+
 if ($_SERVER["REQUEST_METHOD"] == 'POST') {
-    $database = Database::Initialize("localhost", "todo", "root", "");
+    $email = $_POST["email"];
+    $password = $_POST["password"];
 
-    $db = Database::getInstance()->getConnection();
+    $sql = sprintf("SELECT * FROM user WHERE email ='%s'", DB::get()->real_escape_string($email));
+    $result = DB::get()->query($sql);
 
-    $sql = "SELECT * FROM user WHERE email = '{$_POST["email"]}'";
+    if ($result && $result->num_rows > 0) {
+        $user = $result->fetch_assoc();
 
-    $stmt = $db->prepare($sql);
-    if (!$stmt->execute()) {
-        header("Location: error.php");
-        exit();
-    } else {
-        $user = $stmt->fetch();
-        if (password_verify($_POST['password'], $user['password'])) {
-            $_SESSION['user_id'] = $user['id'];
+        if (password_verify($password, $user['password'])) {
+            session_regenerate_id();
+            $_SESSION["user_id"] = $user["id"];
             $_SESSION['user_email'] = $user['email'];
-            header("Location: index.php");
+            header('Location: index.php');
             exit();
         } else {
-            header("Location: login.view.php");
+            header('Location: login.view.php');
             exit();
         }
+    } else {
+        header('Location: error.php');
+        exit();
     }
-} else {
-    header("Location: error.php");
-    exit();
 }

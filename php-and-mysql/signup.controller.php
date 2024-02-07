@@ -7,16 +7,15 @@ require 'vendor/autoload.php';
 
 include_once 'Database.php';
 
-use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
 
-
-class LoginController
+class SignUpController
 {
     public $db;
     public function __construct()
     {
-        $database = Database::Initialize("localhost", "todo", "root", "");
+        $database = Database::Initialize("localhost", "todo", "root", "2901");
 
         $this->db = Database::getInstance()->getConnection();
     }

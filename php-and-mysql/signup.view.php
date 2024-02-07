@@ -11,9 +11,8 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
     $phone = $validator->phoneValidation($_POST["phone"]);
 
     if ($validator->isValid) {
-        include_once 'login.controller.php';
-        $signUp =  new LoginController();
-
+        include_once 'signup.controller.php';
+        $signUp = new SignUpController();
 
         $signUp->signUp($name['data'], $email['data'], $_POST['password'], $phone['data']);
     }
@@ -58,11 +57,14 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
                         <span class="button__text">Kayit Ol</span>
                         <i class="button__icon fas fa-chevron-right"></i>
                     </button>
-                    <button class="button login__submit" onclick="">
-                        <span class="button__text">Login</span>
-                        <i class="button__icon fas fa-chevron-right"></i>
-                    </button>
+
                 </form>
+
+                <div style="display: flex; justify-content: center">
+                    <p>
+                        <a href="login.view.php">Login</a>
+                    </p>
+                </div>
                 <div class="text">
                     <h3>Kayit Ol</h3>
                 </div>
@@ -78,3 +80,9 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
 </body>
 
 </html>
+
+
+<script>
+document.getElementById("loginButton").addEventListener("click", function() {
+    window.location.href = 'login.view.php';
+});

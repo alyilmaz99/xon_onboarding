@@ -1,50 +1,33 @@
 <?php
 
-class Database
+class DB
 {
-    private static $instance = null;
+    private static mysqli $db;
 
-    protected string $host;
-    protected string $name;
-    protected string $user;
-    protected string $password;
+    private function __construct()
+    {}
 
-    private function __construct(
-        string $host,
-        string $name,
-        string $user,
-        string $password
-    ) {
-        $this->host = $host;
-        $this->name = $name;
-        $this->user = $user;
-        $this->password = $password;
-    }
-
-    public static function Initialize(string $host, string $name, string $user, string $password)
+    public static function Init()
     {
-        if (!self::$instance) {
-            self::$instance = new self(
-                $host,
-                $name,
-                $user,
-                $password
-            );
+        $host = "localhost";
+        $dbname = "todo";
+        $username = "root";
+        $password = "2901";
+
+        $mysqli = new mysqli($host, $username, $password, $dbname);
+        if ($mysqli->connect_errno) {
+            throw new Exception("Error connecting to database: " . $mysqli->connect_error);
         }
-        return self::$instance;
+
+        self::$db = $mysqli;
     }
 
-    public static function getInstance()
+    public static function get()
     {
-        return self::$instance;
-    }
 
-    public function getConnection(): PDO
-    {
-        $dsn = "mysql:host={$this->host};dbname={$this->name};charset=utf8";
-        return new PDO($dsn, $this->user, $this->password, [
-            PDO::ATTR_EMULATE_PREPARES => false,
-            PDO::ATTR_STRINGIFY_FETCHES => false,
-        ]);
+        if (!self::$db) {
+            self::Init();
+        }
+        return self::$db;
     }
 }
