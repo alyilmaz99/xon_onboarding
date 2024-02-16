@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <style>
+    .selected {
+        color: red;
+    }
+
+    .highlight {
+        background: chartreuse;
+    }
+
     ul {
         margin-left: 20px;
         color: blue;
@@ -47,19 +55,25 @@
             <li>4th</li>
             <li>5th</li>
             <li>6th</li>
+            <li>7th</li>
     </div>
+    <div></div>
     <nav>
-        <ul>
-            <li>home</li>
-            <li>profile</li>
-            <li>contact</li>
-        </ul>
+        <p>test</p>
     </nav>
+    <div class="log"></div>
     <script>
+    var collection = $("p").last();
+    collection = collection.add(document.getElementById("test"));
+    collection.addClass("selected highlight");
     $(document).ready(function() {
+        $("p").clone().add("<span>REPEAT</span>").appendTo(document.body);
+
         $("#test").on("click", function() {
             $(this).slideUp();
             $("div").hide();
+
+
         });
         $("h1").hover(
             function() {
@@ -74,34 +88,50 @@
             $(this).fadeIn(500);
 
         });
-        /*
-        $("li")
-            .odd()
-            .hide()
-            .end()
-            .even()
-            .hover(function() {
-                $(this)
-                    .toggleClass("active")
-                    .next()
-                    .stop(true, true)
-                    .slideToggle();
-            });
-            */
+
+        uiFunctions(false);
+
         var navTrigger = false;
         $(document).keypress(function(e) {
             if (e.which == 13) {
                 if (navTrigger === false) {
                     $("nav").fadeIn(500);
+                    $("div").fadeOut(500);
                     navTrigger = true;
                 } else if (navTrigger === true) {
                     $("nav").fadeOut(500);
+                    $("div").fadeIn(500);
+
                     navTrigger = false;
                 }
             }
         });
+
     });
 
+    jQuery.fn.LengthOf = function() {
+        console.log(this.length);
+    };
+    $("test").LengthOf();
+
+    function uiFunctions(isActive) {
+        if (isActive === true) {
+            $("li")
+                .odd()
+                .hide()
+                .end()
+                .even()
+                .hover(function() {
+                    $(this)
+                        .toggleClass("active")
+                        .next()
+                        .stop(true, true)
+                        .slideToggle();
+                });
+        } else {
+            $("li").hide();
+        }
+    }
     /*
     document.getElementById("test").click() = function() {
         alert("clicked")

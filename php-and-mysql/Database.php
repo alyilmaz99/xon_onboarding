@@ -5,14 +5,15 @@ class DB
     private static mysqli $db;
 
     private function __construct()
-    {}
+    {
+    }
 
     public static function Init()
     {
         $host = "localhost";
         $dbname = "todo";
         $username = "root";
-        $password = "2901";
+        $password = "Ali.2901";
 
         $mysqli = new mysqli($host, $username, $password, $dbname);
         if ($mysqli->connect_errno) {

@@ -4,7 +4,7 @@ $email = $_GET['email'];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     include_once 'Database.php';
-    $database = Database::Initialize("localhost", "todo", "root", "");
+    $database = Database::Initialize("localhost", "todo", "root", "Ali.2901");
 
     $db = Database::getInstance()->getConnection();
 

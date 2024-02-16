@@ -15,7 +15,7 @@ class SignUpController
     public $db;
     public function __construct()
     {
-        $database = Database::Initialize("localhost", "todo", "root", "2901");
+        $database = Database::Initialize("localhost", "todo", "root", "Ali.2901");
 
         $this->db = Database::getInstance()->getConnection();
     }

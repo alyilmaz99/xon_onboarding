@@ -7,7 +7,8 @@ include_once "./Database.php";
 DB::Init();
 
 if (!isset($_SESSION['user_id'])) {
-    exit("Unauthorized");
+    header('Location: login.view.php');
+    exit();
 }
 
 $sql = "SELECT * FROM todo WHERE user_id = ?";
@@ -44,41 +45,41 @@ if (!$stmt->execute()) {
     </div>
 
     <ul id="myUL">
-        <?php foreach ($todo as $item): ?>
-        <li><?php echo htmlspecialchars($item['task']); ?><span class="close">&times;</span></li>
-        <?php endforeach;?>
+        <?php foreach ($todo as $item) : ?>
+            <li><?php echo htmlspecialchars($item['task']); ?><span class="close">&times;</span></li>
+        <?php endforeach; ?>
     </ul>
 
     <script>
-    var close = document.getElementsByClassName("close");
-    var i;
-    for (i = 0; i < close.length; i++) {
-        close[i].onclick = function() {
-            var div = this.parentElement;
-            div.style.display = "none";
-        }
-    }
-
-    function newElement() {
-        var inputValue = document.getElementById("myInput").value;
-        if (inputValue === '') {
-            alert("You must write something!");
-            return;
-        }
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "todo.php", true);
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("myUL").innerHTML += "<li>" + inputValue +
-                    "<span class='close'>&times;</span></li>";
+        var close = document.getElementsByClassName("close");
+        var i;
+        for (i = 0; i < close.length; i++) {
+            close[i].onclick = function() {
+                var div = this.parentElement;
+                div.style.display = "none";
             }
-        };
-        xhr.send("todo=" + inputValue);
+        }
 
-        document.getElementById("myInput").value = "";
-    }
+        function newElement() {
+            var inputValue = document.getElementById("myInput").value;
+            if (inputValue === '') {
+                alert("You must write something!");
+                return;
+            }
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "todo.php", true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("myUL").innerHTML += "<li>" + inputValue +
+                        "<span class='close'>&times;</span></li>";
+                }
+            };
+            xhr.send("todo=" + inputValue);
+
+            document.getElementById("myInput").value = "";
+        }
     </script>
 </body>
 
