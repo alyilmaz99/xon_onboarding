@@ -1,0 +1,101 @@
+body,
+#gameArea {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-image: url("https://r4.wallpaperflare.com/wallpaper/800/864/33/pc-game-ps4-hellblade-wallpaper-35323a74683733182ebee43046410a0b.jpg");
+  background-size: cover;
+  border-radius: 10px;
+}
+
+h1 {
+  letter-spacing: 2px;
+  font-family: "Skranji", cursive;
+  color: #3e3232;
+  font-size: 26px;
+  font-weight: 400;
+  text-shadow: 0 1px 3px #000;
+  text-align: center;
+}
+
+.img-logo {
+  width: 80px;
+  height: 80px;
+  margin: 30px auto;
+  display: table;
+  border-radius: 50%;
+  animation-name: logo-move;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.hero {
+  width: 150px;
+  height: 100px;
+  background-image: url("https://freepngimg.com/thumb/dragon/27197-7-flying-dragon-clipart.png");
+  background-size: cover;
+
+  position: absolute;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.fire {
+  width: 50px;
+  height: 50px;
+  background-image: url("https://static.vecteezy.com/system/resources/previews/009/375/011/non_2x/fire-explode-design-free-png.png");
+  background-size: cover;
+  position: absolute;
+}
+
+.enemy {
+  width: 50px;
+  height: 50px;
+  background-image: url("https://cdn-icons-png.flaticon.com/512/1477/1477179.png");
+  background-size: cover;
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+@keyframes logo-move {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.btn-home {
+  margin: 20px auto 0;
+  width: 250px;
+  letter-spacing: 2px;
+  border-radius: 8px;
+  font-family: "Skranji", cursive;
+  color: white;
+  font-size: 18px;
+  font-weight: 400;
+  text-shadow: 0 1px 3px #000;
+  text-align: center;
+  padding: 10px 0;
+  background: #a87c7c;
+  border-top: 4px ridge #7e6363;
+  border-left: 4px groove #7e6363;
+  border-right: 4px ridge #7e6363;
+  border-bottom: 4px groove #7e6363;
+  box-shadow: inset 0px 0px 5px 3px rgba(1, 1, 1, 0.3);
+}
+.buttons {
+  margin-top: 250px;
+}
+
+.btn-home:hover {
+  background: #503c3c;
+  box-shadow: 0px 0 5px 5px rgba(255, 255, 255, 0.2);
+}
+
+.btn-home:active {
+  background: #503c3c;
+  box-shadow: 0px 0 5px 5px rgba(255, 255, 255, 0.2);
+}
