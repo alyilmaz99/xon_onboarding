@@ -11,16 +11,20 @@ class UserController
 
     public function createUser()
     {
-        $helper = new Helper();
-        $response = new Response();
-        $data = $helper->getPost();
-        $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param("sss", $data["username"], $data["email"], $data["password"]);
-        if ($stmt->execute()) {
-            $response->json(true, "User Created!", $data["email"], 200);
-        } else {
-            $response->json(false, "ERROR while creating user!", $stmt->error, 404);
+        try {
+            $helper = new Helper();
+            $response = new Response();
+            $data = $helper->getPost();
+            $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param("sss", $data["username"], $data["email"], $data["password"]);
+            if ($stmt->execute()) {
+                $response->json(true, "User Created!", $data["email"], 200);
+            } else {
+                $response->json(false, "ERROR while creating user!", $stmt->error, 404);
+            }
+        } catch (Exception $e) {
+            $response->json(false, "ERROR: ", $e->getMessage());
         }
     }
 
@@ -91,6 +95,27 @@ class UserController
             $response->json(true, "User updated!", $data["username"], 200);
         } else {
             $response->json(false, "ERROR!", $data["username"], 404);
+        }
+    }
+    public function login()
+    {
+        $response = new Response();
+        $helper = new Helper();
+        $data = $helper->getPost();
+        $sql = "SELECT * FROM users WHERE email = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("s", $data["email"]);
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                $user = $result->fetch_all();
+                $response->json(true, "Success!", $user, 200);
+            } else {
+                $response->json(false, "no user", 404);
+            }
+        } else {
+            $response->json(false, "ERROR", $stmt->error, 404);
         }
     }
 }

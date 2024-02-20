@@ -78,6 +78,11 @@ api("PUT", "updateUser/:id", function ($params) {
     $controller = new UserController();
     $controller->updateUser($params);
 });
+
+api("POST", "login", function () {
+    $controller = new UserController();
+    $controller->login();
+});
 http_response_code(404);
 
 die();
