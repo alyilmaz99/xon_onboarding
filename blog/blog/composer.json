@@ -1,0 +1,17 @@
+{
+    "name": "aliyilmaz/blog",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Aliyilmaz\\Blog\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "alyilmaz99",
+            "email": "aliyilmaz9977@gmail.com"
+        }
+    ]
+}

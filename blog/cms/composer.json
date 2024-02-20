@@ -1,0 +1,15 @@
+{
+    "name": "aliyilmaz/cms",
+    "autoload": {
+        "psr-4": {
+            "Aliyilmaz\\Cms\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "alyilmaz99",
+            "email": "aliyilmaz9977@gmail.com"
+        }
+    ],
+    "require": {}
+}

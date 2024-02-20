@@ -1,0 +1,32 @@
+# CMS & Blog Frontend & API
+
+- [x] database desing
+- [] folder structure design
+- [] api desing
+- [] ui select
+- [] create database tables
+- [] cms user login
+- [] cms blog category create
+- [] cms blog category/:id delete
+- [] cms blog category/:id update
+- [] cms blog category listing
+- [] cms blog category/: listing
+- [] cms blog category child listing
+- [] cms blog create
+- [] cms blog update
+- [] cms blog get
+- [] cms blog getAll
+- [] cms blog delete
+- [] cms blog image upload
+- [] cms comment update
+- [] cms comment delete
+- [] cms comment create
+- [] cms comment get
+- [] cms comment status
+- [] blog pages
+- [] blog routing
+- [] blog responsive design
+- [] blog post page pagination
+- [] blog post comment section
+- [] blog join newsteller
+- [] mail html design
