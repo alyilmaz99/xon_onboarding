@@ -1,10 +1,10 @@
 # CMS & Blog Frontend & API
 
 - [x] database desing
-- [] folder structure design
-- [] api desing
-- [] ui select
-- [] create database tables
+- [x] folder structure design
+- [x] api desing
+- [x] ui select
+- [x] create database tables
 - [] cms user login
 - [] cms blog category create
 - [] cms blog category/:id delete

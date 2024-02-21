@@ -13,7 +13,7 @@ class ComposerStaticInitcf986c767bf71e3c1fb7d93fc6d9f5b3
         ),
         'A' => 
         array (
-            'Aliyilmaz\\V1\\' => 13,
+            'Api\\' => 4,
         ),
     );
 
@@ -22,7 +22,7 @@ class ComposerStaticInitcf986c767bf71e3c1fb7d93fc6d9f5b3
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
-        'Aliyilmaz\\V1\\' => 
+        'Api\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
