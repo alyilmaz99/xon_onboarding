@@ -165,6 +165,34 @@ api("PUT", "guest/:id", function ($params) {
     $controller = new CommentController();
     $controller->updateGuest($params);
 });
+api("DELETE", "subs/:id", function ($params) {
+    $controller = new CommentController();
+    $controller->deleteSubs($params);
+});
+api("POST", "comment/:id", function ($params) {
+    $controller = new CommentController();
+    $controller->createComment($params);
+});
+
+api("PUT", "comment/:id", function ($params) {
+    $controller = new CommentController();
+    $controller->updateComments($params);
+});
+
+
+api("DELETE", "comment/:id", function ($params) {
+    $controller = new CommentController();
+    $controller->deleteComments($params);
+});
+api("GET", "comment", function () {
+    $controller = new CommentController();
+    $controller->getComments();
+});
+api("GET", "comment/:id", function ($params) {
+    $controller = new CommentController();
+    $controller->getComment($params);
+});
+
 
 http_response_code(404);
 
