@@ -3,6 +3,7 @@
 use Api\Database;
 use Api\User\UserController;
 use Api\ErrorHandler;
+use Api\Token\TokenController;
 
 require_once 'vendor/autoload.php';
 
@@ -61,6 +62,26 @@ api('POST', 'user', function () {
     $controller->createUser();
 });
 
+api('GET', 'user', function () {
+    $controller = new UserController();
+    $controller->getAll();
+});
+api('GET', 'user/:id', function ($params) {
+    $controller = new UserController();
+    $controller->getUser($params);
+});
+api('PUT', 'user/:id', function ($params) {
+    $controller = new UserController();
+    $controller->updateUser($params);
+});
+api('DELETE', 'user/:id', function ($params) {
+    $controller = new UserController();
+    $controller->deleteUser($params);
+});
+api("POST", "token", function () {
+    $controller = new TokenController();
+    $controller->getToken();
+});
 http_response_code(404);
 
 die();
