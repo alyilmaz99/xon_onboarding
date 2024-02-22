@@ -128,6 +128,23 @@ api("POST", "category/image/:id", function ($params) {
     $controller = new CategoryController();
     $controller->uploadCategoryImage($params);
 });
+api("POST", "category/post/:id", function ($params) {
+    $controller = new CategoryController();
+    $controller->addCategoryPosts($params);
+});
+api("PUT", "category/post/:id", function ($params) {
+    $controller = new CategoryController();
+    $controller->updateCategoryPost($params);
+});
+api("DELETE", "category/post/:id", function ($params) {
+    $controller = new CategoryController();
+    $controller->deleteCategoryPosts($params);
+});
+api("GET", "category/post/:id", function ($params) {
+    $controller = new CategoryController();
+    $controller->getCategoryPosts($params);
+});
+
 
 http_response_code(404);
 
