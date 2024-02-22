@@ -3,6 +3,7 @@
 use Api\Database;
 use Api\User\UserController;
 use Api\ErrorHandler;
+use Api\Post\PostController;
 use Api\Token\TokenController;
 
 require_once 'vendor/autoload.php';
@@ -82,6 +83,27 @@ api("POST", "token", function () {
     $controller = new TokenController();
     $controller->getToken();
 });
+api("POST", "post", function () {
+    $controller = new PostController();
+    $controller->createPost();
+});
+api("GET", "post/:id", function ($params) {
+    $controller = new PostController();
+    $controller->getPostWithID($params);
+});
+api("GET", "post", function () {
+    $controller = new PostController();
+    $controller->getAllPosts();
+});
+api("PUT", "post/:id", function ($params) {
+    $controller = new PostController();
+    $controller->update($params);
+});
+api("DELETE", "post/:id", function ($params) {
+    $controller = new PostController();
+    $controller->deletePost($params);
+});
+
 http_response_code(404);
 
 die();

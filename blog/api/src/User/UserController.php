@@ -98,7 +98,7 @@ class UserController extends BaseController
                 $permissions = $user['permissions'];
             }
 
-            $sql = "UPDATE users SET name = :name, email = :email, permissions = :permissions , is_verified = :is_verified WHERE id = :id";
+            $sql = "UPDATE users SET name = :name, email = :email, permissions = :permissions , is_verified = :is_verified, updated_at = NOW() WHERE id = :id";
 
             $stmt = $this->db->prepare($sql);
             $stmt->bindValue(":name", $name, PDO::PARAM_STR);
