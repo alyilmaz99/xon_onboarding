@@ -5,6 +5,7 @@ use Api\Database;
 use Api\User\UserController;
 use Api\ErrorHandler;
 use Api\Post\PostController;
+use Api\Subs\CommentController;
 use Api\Token\TokenController;
 
 require_once 'vendor/autoload.php';
@@ -144,7 +145,26 @@ api("GET", "category/post/:id", function ($params) {
     $controller = new CategoryController();
     $controller->getCategoryPosts($params);
 });
-
+api("POST", "guest", function () {
+    $controller = new CommentController();
+    $controller->createGuest();
+});
+api("GET", "guest", function () {
+    $controller = new CommentController();
+    $controller->getGuests();
+});
+api("GET", "guest/:id", function ($params) {
+    $controller = new CommentController();
+    $controller->getGuest($params);
+});
+api("DELETE", "guest/:id", function ($params) {
+    $controller = new CommentController();
+    $controller->deleteGuest($params);
+});
+api("PUT", "guest/:id", function ($params) {
+    $controller = new CommentController();
+    $controller->updateGuest($params);
+});
 
 http_response_code(404);
 

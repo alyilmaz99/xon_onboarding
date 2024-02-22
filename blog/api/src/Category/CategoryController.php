@@ -83,7 +83,7 @@ class CategoryController extends BaseController
             Response::json(false, "Category Bulunamadı! ID: " . $params["id"], "", 404);
         }
 
-        Response::json(true, "Category Getirildi!", $data, 404);
+        Response::json(true, "Category Getirildi!", $data, 200);
     }
     public function deleteCategory(array $params)
     {
