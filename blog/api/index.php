@@ -169,6 +169,18 @@ api("DELETE", "subs/:id", function ($params) {
     $controller = new CommentController();
     $controller->deleteSubs($params);
 });
+api("POST", "subs", function () {
+    $controller = new CommentController();
+    $controller->createSubs();
+});
+api("PUT", "subs/:id", function ($params) {
+    $controller = new CommentController();
+    $controller->updateSubs($params);
+});
+api("GET", "subs", function () {
+    $controller = new CommentController();
+    $controller->getSubs();
+});
 api("POST", "comment/:id", function ($params) {
     $controller = new CommentController();
     $controller->createComment($params);
@@ -192,6 +204,7 @@ api("GET", "comment/:id", function ($params) {
     $controller = new CommentController();
     $controller->getComment($params);
 });
+
 
 
 http_response_code(404);

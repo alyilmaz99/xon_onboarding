@@ -366,4 +366,113 @@ class CommentController extends BaseController
 
         Response::json(true, "Comment Getirildi!", $data, 200);
     }
+    public function checSubsWithEmail($email)
+    {
+        $sql = "SELECT * FROM  subs WHERE email = :email";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":email", $email, PDO::PARAM_INT);
+        $stmt->execute();
+        $checker = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($checker == null) {
+            return false;
+        } else {
+            return $checker;
+        }
+    }
+    public function createSubs()
+    {
+        $data = $this->getPost();
+        if (!isset($data["email"])) {
+            Response::json(false, 'Hata oluştu! HATA: Eksik bilgi!', 'email eksik', 404);
+        }
+        $checker = $this->checSubsWithEmail($data["email"]);
+        if ($checker) {
+            Response::json(false, "Kayıtlı Subs Zaten Mevcut", $data["email"], 406);
+        }
+        $sql = "INSERT INTO subs ( email,  is_active,updated_at) VALUES (:email, :is_active, NOW() )";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":email", $data['email'], PDO::PARAM_STR);
+        $stmt->bindValue(":is_active", 1, PDO::PARAM_INT);
+
+
+        if (!$stmt->execute()) {
+
+            Response::json(false, 'Hata oluştu! Hata:' . $stmt->errorInfo()[2], '', 404);
+        } else {
+            $sql = "INSERT INTO subs (email, is_active,updated_at) VALUES ( :email, :is_active,NOW() )";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindValue(":email", $data['email'], PDO::PARAM_STR);
+            $stmt->bindValue(":is_active", 1, PDO::PARAM_INT);
+            if (!$stmt->execute()) {
+                Response::json(false, "Subs Oluşturulamadı!" . $stmt->errorInfo()[2], "", 400);
+            }
+        }
+        Response::json(true, ' Subs basariyla oluşturuldu! ID: ' . $this->db->lastInsertId(), $data, 200);
+    }
+    public function getSubs()
+    {
+        $this->protect();
+        $sql = "SELECT * FROM subs";
+
+        $stmt = $this->db->prepare($sql);
+
+        if ($stmt->execute()) {
+            $data = [];
+
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+                $data[] = $row;
+            }
+            if ($data == []) {
+                Response::json(true, 'Tum Subs Getirilemedi!', $data);
+            } else {
+                Response::json(false, 'Tum Subs Getirildi!', $data, 200);
+            }
+        } else {
+            $errorInfo = $stmt->errorInfo();
+            Response::json(true, 'Tum Subs Getirlemedi! Hata: ' . $errorInfo[2], '', 404);
+        }
+    }
+    public function updateSubs($params)
+    {
+
+        $this->protect();
+        if (!isset($params['id']) || empty($params['id']) || !is_numeric($params['id'])) {
+            Response::json(false, 'Id Giriniz!', '', 404);
+        }
+        $check = $this->checSubs($params['id']);
+        if (!$check) {
+            Response::json(false, 'Sub not found.', "ID" . $params["id"], 404);
+        }
+
+        $data = $this->getPost();
+        if (!isset($data) || empty($data)) {
+            Response::json(false, "Değiştirecek Bir şey bulunamadı!", "", 404);
+        }
+
+        $email = $is_active  = null;
+
+        foreach (['email', "is_active"] as $field) {
+            if (isset($data[$field])) {
+                $$field = $data[$field];
+            } elseif (isset($check[$field])) {
+                $$field = $check[$field];
+            }
+        }
+
+        $sql = "UPDATE subs SET email = :email, is_active = :is_active, updated_at = NOW() WHERE id = :id";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":email", $email, PDO::PARAM_INT);
+        $stmt->bindValue(":is_active", $is_active, PDO::PARAM_INT);
+
+        $stmt->bindValue(":id", $params['id'], PDO::PARAM_INT);
+
+        if (!$stmt->execute()) {
+            Response::json(false, 'Hata oluştu! Hata:' . $stmt->errorInfo()[2], '', 500);
+        }
+        Response::json(true, 'Subs güncellendi. ID: ' . $params['id'], $data);
+    }
 }
