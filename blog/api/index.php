@@ -1,5 +1,6 @@
 <?php
 
+use Api\Category\CategoryController;
 use Api\Database;
 use Api\User\UserController;
 use Api\ErrorHandler;
@@ -102,6 +103,30 @@ api("PUT", "post/:id", function ($params) {
 api("DELETE", "post/:id", function ($params) {
     $controller = new PostController();
     $controller->deletePost($params);
+});
+api("POST", "category", function () {
+    $controller = new CategoryController();
+    $controller->createCategory();
+});
+api("GET", "category", function () {
+    $controller = new CategoryController();
+    $controller->getCategories();
+});
+api("GET", "category/:id", function ($params) {
+    $controller = new CategoryController();
+    $controller->getCategory($params);
+});
+api("DELETE", "category/:id", function ($params) {
+    $controller = new CategoryController();
+    $controller->deleteCategory($params);
+});
+api("PUT", "category/:id", function ($params) {
+    $controller = new CategoryController();
+    $controller->updateCategory($params);
+});
+api("POST", "category/image/:id", function ($params) {
+    $controller = new CategoryController();
+    $controller->uploadCategoryImage($params);
 });
 
 http_response_code(404);
