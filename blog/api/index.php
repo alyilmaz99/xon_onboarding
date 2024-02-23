@@ -204,9 +204,14 @@ api("GET", "comment/:id", function ($params) {
     $controller = new CommentController();
     $controller->getComment($params);
 });
-
-
-
+api("GET", "getAllReaded", function () {
+    $controller = new PostController();
+    $controller->getAllReaded();
+});
+api("POST", "user/upload/:id", function ($params) {
+    $controller = new UserController();
+    $controller->uploadUserImage($params);
+});
 http_response_code(404);
 
 die();

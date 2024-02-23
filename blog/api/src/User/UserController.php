@@ -4,6 +4,7 @@ namespace Api\User;
 
 use Api\BaseController;
 use Api\Response;
+use Api\Helper;
 use PDO;
 use Api\Database;
 
@@ -55,6 +56,17 @@ class UserController extends BaseController
             Response::json(false, 'Hata oluştu veya herhangi bir user bulunamadi!', '', 404);
         } else {
             Response::json(true, 'Tum userlar getirildi!', $data);
+        }
+    }
+    public function uploadUserImage($params)
+    {
+        $this->getPost();
+        if (isset($_FILES['user_image'])) {
+            $help = new Helper();
+            $firstDest =  $help->uploadImage($params['id'], $_FILES['user_image'], "user_image", "users");
+            Response::json(true, 'Resimler başariyla yüklendi!', $firstDest);
+        } else {
+            Response::json(false, 'Resim yakalanamadi!', '', 404);
         }
     }
     public function getUser($params)

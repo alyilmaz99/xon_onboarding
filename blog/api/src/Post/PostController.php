@@ -71,7 +71,9 @@ class PostController extends BaseController
     }
     public function getAllPosts()
     {
-        $sql = 'SELECT p.*, (SELECT COUNT(*) FROM user_posts as u WHERE u.post_id = p.id) as total FROM posts as p';
+        $sql = 'SELECT p.*, 
+        COUNT(*) as total,
+        SUM(p.readed) as total_readed FROM posts as p LEFT JOIN user_posts as u ON u.post_id = p.id GROUP BY p.id ';
         $stmt = $this->db->prepare($sql);
 
         if ($stmt->execute()) {
@@ -85,6 +87,7 @@ class PostController extends BaseController
             Response::json(false, 'Post Getirilemedi! Hata: ' . $errorInfo[2], '', 404);
         }
     }
+
     public function checkPostByID($id)
     {
 

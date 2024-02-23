@@ -31,7 +31,7 @@ if (!isset($_SESSION["is_logged"])) {
                     <h3 id="welcome-text" class="welcome-text">Merhaba </h3>
                 </div>
                 <div class="profile-image">
-                    <img src="assets/images/Avatar.png" alt="profile-image">
+                    <img class="user-image" id="user-image" src="" alt="profile-image">
                 </div>
 
             </div>
@@ -61,7 +61,7 @@ if (!isset($_SESSION["is_logged"])) {
                 <div class="report-container">
                     <div class="post-report">
                         <span class="total-number">
-                            100
+                            <span id="comment-number"></span>
                         </span>
                         <span class="total-posts-text">
                             Total Comments
@@ -72,7 +72,7 @@ if (!isset($_SESSION["is_logged"])) {
                 <div class="report-container">
                     <div class="post-report">
                         <span class="total-number">
-                            100
+                            <span id="readed-number"></span>
                         </span>
                         <span class="total-posts-text">
                             Total Reads
@@ -94,27 +94,42 @@ if (!isset($_SESSION["is_logged"])) {
         $(document).ready(function() {
             $.get("../api/user/<?= $_SESSION["user_id"] ?>", function(data, status) {
                 if (status == "success") {
-                    console.log(data);
-                    console.log(data["data"]["name"]);
+                    console.log(data["data"])
                     $("#welcome-text").append(data["data"]["name"]);
+                    if (data["data"]["user_image"] == null) {
+                        $("#user-image").attr("src", "assets/images/Avatar.png");
+
+                    } else {
+                        $("#user-image").attr("src", "../api/" + data["data"]["user_image"]);
+                    }
                 }
             });
         });
         $(document).ready(function() {
             $.get("../api/post", function(data, status) {
                 if (status == "success") {
-                    console.log(data["data"][0]["total"]);
                     $("#post-number").text(data["data"][0]["total"]);
+                    $("#readed-number").text(data["data"][0]["total_readed"]);
+
                 }
             });
         });
         $(document).ready(function() {
             $.get("../api/category", function(data, status) {
                 if (status == "success") {
-                    console.log(data["data"]);
                     $("#category-number").text(data["data"][0]["total"]);
                 }
             });
+
+        });
+        $(document).ready(function() {
+            $.get("../api/comment", function(data, status) {
+                if (status == "success") {
+                    console.log(data["data"][0]["total"])
+                    $("#comment-number").text(data["data"][0]["total"]);
+                }
+            });
+
         });
     </script>
 </body>

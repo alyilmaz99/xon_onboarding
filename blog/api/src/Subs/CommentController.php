@@ -57,7 +57,7 @@ class CommentController extends BaseController
     public function getGuests()
     {
 
-        $sql = "SELECT * FROM guest";
+        $sql = "SELECT *, (SELECT COUNT(*) FROM guest) as total FROM guest";
 
         $stmt = $this->db->prepare($sql);
 
@@ -69,9 +69,9 @@ class CommentController extends BaseController
                 $data[] = $row;
             }
             if ($data == []) {
-                Response::json(true, 'Tum Guests Getirilemedi!', $data);
+                Response::json(false, 'Tum Guests Getirilemedi!', $data);
             } else {
-                Response::json(false, 'Tum Guests Getirildi!', $data, 200);
+                Response::json(true, 'Tum Guests Getirildi!', $data, 200);
             }
         } else {
             $errorInfo = $stmt->errorInfo();
@@ -327,7 +327,7 @@ class CommentController extends BaseController
     public function getComments()
     {
 
-        $sql = "SELECT * FROM comments";
+        $sql = "SELECT *,(SELECT COUNT(*) FROM comments) as total FROM comments";
 
         $stmt = $this->db->prepare($sql);
 
@@ -339,9 +339,9 @@ class CommentController extends BaseController
                 $data[] = $row;
             }
             if ($data == []) {
-                Response::json(true, 'Tum Comments Getirilemedi!', $data);
+                Response::json(false, 'Tum Comments Getirilemedi!', $data);
             } else {
-                Response::json(false, 'Tum Comments Getirildi!', $data, 200);
+                Response::json(true, 'Tum Comments Getirildi!', $data, 200);
             }
         } else {
             $errorInfo = $stmt->errorInfo();
