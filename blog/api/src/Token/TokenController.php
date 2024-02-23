@@ -44,34 +44,10 @@ class TokenController extends BaseController
                     Response::json(false, 'Hata oluştu veya user sifresi yanlis!', '', 404);
                 }
 
-                $isCreated = "SELECT * FROM access_token WHERE user_id = :user_id";
-                $stmt = $this->db->prepare($isCreated);
-                $stmt->bindParam(":user_id", $user_id, PDO::PARAM_STR);
-                $stmt->execute();
-
-                $tokenList = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                if ($tokenList == null) {
-
-                    $token = bin2hex(openssl_random_pseudo_bytes(24));
-
-                    $insertTokenQuery = "INSERT INTO access_token (token,expiry,user_id) VALUES (:token, NOW() + INTERVAL 1 MONTH, :user_id)";
-                    $stmt = $this->db->prepare($insertTokenQuery);
-                    $stmt->bindParam(':token', $token, PDO::PARAM_STR);
-                    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
-
-                    $stmt->execute();
-                    Response::json(true, 'Token olusturuldu!', $token);
-                } else {
-                    $token = bin2hex(openssl_random_pseudo_bytes(24));
-
-                    $updateTokenQuery = "UPDATE access_token SET token = :token, expiry = NOW() + INTERVAL 1 MONTH, created_at = NOW() WHERE user_id = :user_id";
-                    $stmt = $this->db->prepare($updateTokenQuery);
-                    $stmt->bindParam(':token', $token, PDO::PARAM_STR);
-                    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
-                    $stmt->execute();
-                    Response::json(true, 'Token getirildi!', $token);
-                }
+                $_SESSION["is_logged"] = 1;
+                $_SESSION["user_id"] = $user["id"];
+                $_SESSION["user_email"] = $user["email"];
+                Response::json(true, 'User Login Oldu!', "",);
             } catch (PDOException $e) {
                 echo "Veritabani Hatasi: " . $e->getMessage();
                 return 'gateway hatasi';

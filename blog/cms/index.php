@@ -17,15 +17,16 @@ switch ($request_uri) {
         require __DIR__  . SRC_DIR . '/auth/login.view.php';
         break;
 
-    case '/auth/login':
+    case '/login':
         require __DIR__ . SRC_DIR . '/auth/login.view.php';
         break;
 
-
-    case '/contact':
-        require __DIR__ . SRC_DIR . '/contact.php';
+    case '/dashboard':
+        require __DIR__ . SRC_DIR . '/Dashboard/Dashboard.php';
         break;
-
+    case '/dashboard/style':
+        require __DIR__ . '/assets/css/dashboard.css';
+        break;
     default:
         http_response_code(404);
         require __DIR__   . '/404.php';

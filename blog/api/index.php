@@ -13,7 +13,7 @@ require_once 'vendor/autoload.php';
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-
+session_start();
 header("Content-type: application/json; charset=UTF-8");
 
 const BASE_DIR = '/xon_onboarding/blog/api/';
