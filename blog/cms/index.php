@@ -24,8 +24,20 @@ switch ($request_uri) {
     case '/dashboard':
         require __DIR__ . SRC_DIR . '/Dashboard/Dashboard.php';
         break;
-    case '/dashboard/style':
-        require __DIR__ . '/assets/css/dashboard.css';
+    case '/post':
+        require __DIR__ . SRC_DIR . '/post/Post.php';
+        break;
+    case '/category':
+        require __DIR__ . SRC_DIR . '/category/Category.php';
+        break;
+    case '/profile':
+        require __DIR__ . SRC_DIR . '/profile/Profile.php';
+        break;
+    case '/settings':
+        require __DIR__ . SRC_DIR . '/Settings/Settings.php';
+        break;
+    case '/comments':
+        require __DIR__ . SRC_DIR . '/Comments/Comments.php';
         break;
     default:
         http_response_code(404);
