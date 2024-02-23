@@ -71,8 +71,7 @@ class PostController extends BaseController
     }
     public function getAllPosts()
     {
-        $this->protect();
-        $sql = 'SELECT p.*,u.post_id FROM posts as p INNER JOIN user_posts as u ON u.post_id = p.id ';
+        $sql = 'SELECT p.*, (SELECT COUNT(*) FROM user_posts as u WHERE u.post_id = p.id) as total FROM posts as p';
         $stmt = $this->db->prepare($sql);
 
         if ($stmt->execute()) {

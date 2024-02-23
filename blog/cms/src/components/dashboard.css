@@ -69,14 +69,14 @@ body {
 .post-report {
   width: 100%;
   margin-top: 20px;
-  justify-content: center;
+  justify-content: flex-start;
 }
 .post-report span {
   display: flex;
   margin-left: 15%;
   justify-content: flex-start;
 }
-.total-posts-number {
+.total-number {
   font-family: "Poppins" sans-serif;
   font-size: 35px;
   margin-bottom: 10px;

@@ -28,7 +28,7 @@ if (!isset($_SESSION["is_logged"])) {
 
                 <div class="top-titles">
                     <h1 class="dashboard-title">Dashboard</h1>
-                    <h3 class="welcome-text">Merhaba Ali!</h3>
+                    <h3 id="welcome-text" class="welcome-text">Merhaba </h3>
                 </div>
                 <div class="profile-image">
                     <img src="assets/images/Avatar.png" alt="profile-image">
@@ -38,8 +38,8 @@ if (!isset($_SESSION["is_logged"])) {
             <div class="reports">
                 <div class="report-container">
                     <div class="post-report">
-                        <span class="total-posts-number">
-                            22,220,000
+                        <span class="total-number">
+                            <span id="post-number"></span>
                         </span>
                         <span class="total-posts-text">
                             Total Posts
@@ -49,8 +49,8 @@ if (!isset($_SESSION["is_logged"])) {
                 <hr class="report-hr">
                 <div class="report-container">
                     <div class="post-report">
-                        <span class="total-posts-number">
-                            100
+                        <span class="total-number">
+                            <span id="category-number"></span>
                         </span>
                         <span class="total-posts-text">
                             Total Category
@@ -60,7 +60,7 @@ if (!isset($_SESSION["is_logged"])) {
                 <hr class="report-hr">
                 <div class="report-container">
                     <div class="post-report">
-                        <span class="total-posts-number">
+                        <span class="total-number">
                             100
                         </span>
                         <span class="total-posts-text">
@@ -71,7 +71,7 @@ if (!isset($_SESSION["is_logged"])) {
                 <hr class="report-hr">
                 <div class="report-container">
                     <div class="post-report">
-                        <span class="total-posts-number">
+                        <span class="total-number">
                             100
                         </span>
                         <span class="total-posts-text">
@@ -90,6 +90,33 @@ if (!isset($_SESSION["is_logged"])) {
 
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            $.get("../api/user/<?= $_SESSION["user_id"] ?>", function(data, status) {
+                if (status == "success") {
+                    console.log(data);
+                    console.log(data["data"]["name"]);
+                    $("#welcome-text").append(data["data"]["name"]);
+                }
+            });
+        });
+        $(document).ready(function() {
+            $.get("../api/post", function(data, status) {
+                if (status == "success") {
+                    console.log(data["data"][0]["total"]);
+                    $("#post-number").text(data["data"][0]["total"]);
+                }
+            });
+        });
+        $(document).ready(function() {
+            $.get("../api/category", function(data, status) {
+                if (status == "success") {
+                    console.log(data["data"]);
+                    $("#category-number").text(data["data"][0]["total"]);
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

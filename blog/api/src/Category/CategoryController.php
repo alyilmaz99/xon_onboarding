@@ -43,9 +43,8 @@ class CategoryController extends BaseController
     }
     public function getCategories()
     {
-        $this->protect();
 
-        $sql = "SELECT * FROM category";
+        $sql = "SELECT *, (SELECT COUNT(*) FROM category) as total FROM category";
 
         $stmt = $this->db->prepare($sql);
 
@@ -56,7 +55,7 @@ class CategoryController extends BaseController
 
                 $data[] = $row;
             }
-            if ($data == []) {
+            if ($data != []) {
                 Response::json(true, 'Tum Categories Getirildi!', $data);
             } else {
                 Response::json(false, 'Tum Categories Getirelemedi!', $data, 404);
