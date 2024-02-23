@@ -28,8 +28,10 @@ li a:hover {
   width: 200px;
   background-color: white;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  margin-right: 20px;
+  margin-left: 20px;
 }
 .navbar-li a {
   display: flex;
@@ -51,4 +53,9 @@ li a:hover {
 .make-bold {
   filter: invert(42%) sepia(93%) saturate(1352%) hue-rotate(87deg)
     brightness(119%) contrast(119%);
+}
+.navbar-hr {
+  height: 100vh;
+  color: #dddddd3d;
+  background-color: #dddddd3d;
 }
