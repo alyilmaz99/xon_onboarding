@@ -59,3 +59,16 @@ li a:hover {
   color: #dddddd3d;
   background-color: #dddddd3d;
 }
+.post-button {
+  background-color: #1473e6;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  width: 190px;
+  border-radius: 30px;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  height: 35px;
+  margin-top: 90%;
+  display: flex;
+}

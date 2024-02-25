@@ -94,3 +94,53 @@ body {
   border-radius: 50%;
   object-fit: cover;
 }
+
+.post-body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 80%;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+
+.post-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.post-tr {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: #2c2c2c;
+
+  text-align: left;
+}
+.post-tr-td {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 17px;
+  color: #2c2c2c;
+  border-bottom: 1px solid #dae9fc;
+  padding: 20px 30px;
+  text-align: left;
+}
+.post-tr-td td {
+  height: 50px;
+}
+
+.post-tr-td:nth-child(even) {
+  background-color: #fee5dd;
+}
+
+.post-tr-td:first-child {
+  border-left: none;
+}
+
+.post-tr-td:last-child {
+  border-right: none;
+}

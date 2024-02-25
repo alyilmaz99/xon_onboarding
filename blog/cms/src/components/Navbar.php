@@ -14,6 +14,7 @@
                     <span class="list-text">Profile</span></a></li>
         <li class="navbar-li"><a href="settings"><span><img src="assets/svg/settings.svg" />
                     <span class="list-text">Settings</span></a></li>
+        <button class="post-button" id="new-post">&#9997; New Post</button>
     </ul>
 </section>
 
@@ -28,6 +29,9 @@
                 $(this).siblings().find("span").removeClass("selected");
                 $(this).find("span").addClass("selected");
             }
+        });
+        $("#new-post").on("click", function() {
+            location.replace("post/new");
         });
 
         $('#navbar-ul li').click(function(e) {
