@@ -144,3 +144,19 @@ body {
 .post-tr-td:last-child {
   border-right: none;
 }
+.edit-button {
+  color: white;
+  background-color: #1473e6;
+  border: none;
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+}
+.delete-button {
+  color: white;
+  width: 25px;
+  height: 25px;
+  background-color: #e61414;
+  border: none;
+  margin-right: 10px;
+}

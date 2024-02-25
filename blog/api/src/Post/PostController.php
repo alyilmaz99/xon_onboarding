@@ -21,7 +21,6 @@ class PostController extends BaseController
     public function createPost()
     {
 
-        $user = $this->protect();
         $data = $this->getPost();
         $sql = "INSERT INTO posts (title, details, content, likes, readed,publishing_date,is_active, updated_at) VALUES (:title, :details, :content, :likes, :readed,:publishing_date,:is_active, NOW())";
         $stmt = $this->db->prepare($sql);
@@ -42,7 +41,7 @@ class PostController extends BaseController
 
             $sql = "INSERT INTO user_posts (user_id,post_id,updated_at) VALUES (:user_id,:post_id,NOW())";
             $stmt = $this->db->prepare($sql);
-            $stmt->bindValue(":user_id", $user["id"], PDO::PARAM_INT);
+            $stmt->bindValue(":user_id", $data["user_id"], PDO::PARAM_INT);
             $stmt->bindValue(":post_id", $this->db->lastInsertId(), PDO::PARAM_INT);
             if (!$stmt->execute()) {
                 Response::json(false, "Hata oluştu! Hata: " . $stmt->errorInfo()[2], "User Posts oluşturulamadı!", 404);
@@ -106,7 +105,6 @@ class PostController extends BaseController
     }
     public function update($params)
     {
-        $this->protect();
         if (!isset($params['id']) || empty($params['id']) || !is_numeric($params['id'])) {
             Response::json(false, 'Id Giriniz!', '', 404);
         }
@@ -167,7 +165,6 @@ class PostController extends BaseController
     }
     public function deletePost($params)
     {
-        $this->protect();
         $check = $this->checkPostByID($params["id"]);
         if (!$check) {
             Response::json(false, 'Post Bulunamadı!', 'POSTID' . $params["id"], 404);
