@@ -38,12 +38,12 @@ if (!isset($_SESSION["is_logged"])) {
             <div class="post-body">
                 <table class="post-table">
                     <thead class="post-tr">
+                        <th>Is Active</th>
                         <th>ID</th>
                         <th>Title</th>
                         <th>Details</th>
                         <th>Likes</th>
                         <th>Readed</th>
-                        <th>Is Active</th>
                         <th>Updated At</th>
                     </thead>
                     <tbody>
@@ -82,12 +82,16 @@ if (!isset($_SESSION["is_logged"])) {
                                 var post = posts[i];
 
                                 var newRow = $("<tr>").addClass("post-tr-td");
+                                var activeDot = $("<span>").addClass("table-dot");
+                                var activeIcon = $("<i>").addClass("fas fa-dot-circle");
+                                activeDot.append(activeIcon);
+                                post.is_active == 1 ? activeDot.addClass("dot-active") : activeDot.addClass("dot-inactive");
+                                newRow.append(activeDot);
                                 newRow.append($("<td>").text(post.id));
                                 newRow.append($("<td>").text(post.title));
                                 newRow.append($("<td>").text(post.details));
                                 newRow.append($("<td>").text(post.likes));
                                 newRow.append($("<td>").text(post.readed));
-                                newRow.append($("<td>").text(post.is_active));
                                 newRow.append($("<td>").text(post.updated_at));
 
                                 var actionButtons = $("<td>");
@@ -117,13 +121,14 @@ if (!isset($_SESSION["is_logged"])) {
 
                         }
                     }).done(function() {
-                        console.log(window.post)
+
                         $(document).on("click", ".activate-button", function() {
-                            var postId = $(this).closest("tr").find("td:first").text();
-                            var activate = $(this).closest("tr").find("td").eq(5).text();
+                            var postId = $(this).closest("tr").find("td").eq(0).text();
 
-
-                            activate == 1 ? activate = 0 : activate = 1;
+                            var activate = $(this).closest("tr").find("span").eq(0).attr("class");
+                            console.log(activate);
+                            activate == "table-dot dot-active" ? activate = 0 : activate = 1;
+                            console.log(activate);
                             var updateData = {
                                 is_active: activate,
 

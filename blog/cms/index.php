@@ -39,7 +39,7 @@ switch ($request_uri) {
     case '/comments':
         require __DIR__ . SRC_DIR . '/Comments/Comments.php';
         break;
-    case '/post-create':
+    case '/post/new':
         require __DIR__ . SRC_DIR . '/post/PostCreate.php';
         break;
     case '/post-edit':

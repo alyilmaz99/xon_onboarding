@@ -168,3 +168,15 @@ body {
   border: none;
   margin-right: 10px;
 }
+.table-dot {
+  display: flex;
+  align-items: center;
+  padding-top: 30%;
+  justify-content: center;
+}
+.dot-active {
+  color: rgb(153, 220, 51);
+}
+.dot-inactive {
+  color: red;
+}
