@@ -22,7 +22,9 @@ $routes = [
     '/settings' => '/Settings/Settings.php',
     '/comments' => '/Comments/Comments.php',
     '/post/new' => '/post/PostCreate.php',
-    '/post/edit/(\d+)' => '/post/PostEdit.php'
+    '/post/edit/(\d+)' => '/post/PostEdit.php',
+    '/category/edit/(\d+)' => '/category/CategoryEdit.php',
+    '/category/new' => '/category/CategoryCreate.php'
 ];
 
 $matched = false;

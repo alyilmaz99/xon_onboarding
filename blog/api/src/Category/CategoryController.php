@@ -22,7 +22,6 @@ class CategoryController extends BaseController
     }
     public function createCategory()
     {
-        $user = $this->protect();
         $data = $this->getPost();
         if (!isset($data["name"]) || !isset($data["detail"])) {
             Response::json(false, 'Hata oluştu! HATA: Eksik bilgi!', 'name veya detail eksik', 404);
@@ -32,8 +31,8 @@ class CategoryController extends BaseController
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(":name", $data["name"], PDO::PARAM_STR);
         $stmt->bindValue(":detail", $data['detail'], PDO::PARAM_STR);
-        $stmt->bindValue(":created_by", $user["id"], PDO::PARAM_STR);
-        $stmt->bindValue(":is_active", 1, PDO::PARAM_STR);
+        $stmt->bindValue(":created_by", $data["user_id"], PDO::PARAM_STR);
+        $stmt->bindValue(":is_active", $data["is_active"], PDO::PARAM_INT);
 
         if (!$stmt->execute()) {
             Response::json(false, 'Hata oluştu! Hata:' . $stmt->errorInfo()[2], '', 404);
@@ -67,7 +66,6 @@ class CategoryController extends BaseController
     }
     public function getCategory($params)
     {
-        $this->protect();
 
         $sql = "SELECT * FROM category WHERE id = :id";
 
@@ -86,7 +84,6 @@ class CategoryController extends BaseController
     }
     public function deleteCategory(array $params)
     {
-        $this->protect();
         if (!isset($params['id']) || empty($params['id']) || !is_numeric($params['id'])) {
             Response::json(false, 'Id Giriniz!', '', 404);
         }
@@ -122,7 +119,6 @@ class CategoryController extends BaseController
     public function updateCategory($params)
     {
 
-        $this->protect();
         if (!isset($params['id']) || empty($params['id']) || !is_numeric($params['id'])) {
             Response::json(false, 'Id Giriniz!', '', 404);
         }
@@ -161,7 +157,6 @@ class CategoryController extends BaseController
     public function uploadCategoryImage($params)
     {
         $this->getPost();
-        $this->protect();
         if (isset($_FILES['image']) && isset($_FILES['thumbnail'])) {
             $help = new Helper();
             $firstDest =  $help->uploadImage($params['id'], $_FILES['image'], "image", "category");
@@ -174,7 +169,6 @@ class CategoryController extends BaseController
     }
     public function addCategoryPosts($params)
     {
-        $user = $this->protect();
         $data = $this->getPost();
         if (!isset($data["post_id"])) {
             Response::json(false, 'Hata oluştu! HATA: Eksik bilgi!', 'post_id eksik', 404);
@@ -218,7 +212,6 @@ class CategoryController extends BaseController
     public function updateCategoryPost($params)
     {
 
-        $this->protect();
         if (!isset($params['id']) || empty($params['id']) || !is_numeric($params['id'])) {
             Response::json(false, 'Id Giriniz!', '', 404);
         }
@@ -269,7 +262,6 @@ class CategoryController extends BaseController
 
     public function deleteCategoryPosts(array $params)
     {
-        $this->protect();
         if (!isset($params['id']) || empty($params['id']) || !is_numeric($params['id'])) {
             Response::json(false, 'Id Giriniz!', '', 404);
         }
@@ -291,7 +283,6 @@ class CategoryController extends BaseController
 
     public function getCategoryPosts($params)
     {
-        $this->protect();
 
         $sql = "SELECT * FROM category_posts WHERE category_id = :id";
 
