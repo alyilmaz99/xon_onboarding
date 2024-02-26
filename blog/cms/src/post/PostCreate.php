@@ -18,6 +18,8 @@ if (!isset($_SESSION["is_logged"])) {
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 
 <body>
 
@@ -37,15 +39,6 @@ if (!isset($_SESSION["is_logged"])) {
             </div>
             <div class="post-create-body">
                 <div class="editor-top">
-                    <div class="editor-actions">
-                        <button type="button" id="editor-bold" class="editor-button">Bold</button>
-                        <button type="button" id="italic" class="editor-button">Italic</button>
-                        <button type="button" id="toUpperCase" class="editor-button">ToUpperCase</button>
-                        <button type="button" id="toLowerCase" class="editor-button ">ToLowerCase</button>
-                        <button type="button" id="align-left" class="editor-button fas fa-align-left"></button>
-                        <button type="button" id="align-center" class="editor-button fas fa-align-center"></button>
-                        <button type="button" id="align-right" class="editor-button fas fa-align-right"></button>
-                    </div>
                     <div class="editor-title">
                         <div class="title">
                             <label for="title">Title:</label><br>
@@ -54,32 +47,88 @@ if (!isset($_SESSION["is_logged"])) {
                             <input type="text" class="slug-field" id="slug" name="slug" value=""><br>
                             <button type="button" id="save" class="save-button">Save</button>
                         </div>
-
                     </div>
+
                 </div>
+
+                <div class="textarea-box">
+                    <textarea class="textarea">
+                </textarea>
+                </div>
+
             </div>
-
         </div>
+    </div>
 
-        <script>
-            $(document).ready(function() {
-                $.get("../../api/user/<?= $_SESSION["user_id"] ?>", function(data, status) {
-                    if (status == "success") {
-                        if (data["data"]["user_image"] == null) {
-                            $("#user-image").attr("src", "../assets/images/Avatar.png");
 
+    <script>
+        var simplemde = new SimpleMDE({
+            autofocus: true,
+            indentWithTabs: true,
+
+            renderingConfig: {
+                singleLineBreaks: false,
+                codeSyntaxHighlighting: true,
+            },
+            placeholder: "Type here...",
+            element: $(".textarea")[0],
+        });
+
+
+
+
+        $(document).ready(function() {
+            $("#blog-content").focus(function() {
+                var input = this;
+                setTimeout(function() {
+                    input.setSelectionRange(0, 0);
+                }, 0);
+            });
+
+            $.get("../../api/user/<?= $_SESSION["user_id"] ?>", function(data, status) {
+                if (status == "success") {
+                    if (data["data"]["user_image"] == null) {
+                        $("#user-image").attr("src", "../assets/images/Avatar.png");
+                    } else {
+                        $("#user-image").attr("src", "../../api/" + data["data"]["user_image"]);
+                    }
+                }
+            });
+
+            $("#save").on("click", function() {
+                var text = simplemde.value();
+
+                var postData = {
+                    title: $("#title").val(),
+                    user_id: <?php echo $_SESSION["user_id"]; ?>,
+                    slug: $("#slug").val(),
+                    details: text.length > 100 ?
+                        text.substr(0, text.lastIndexOf(' ', 97)) + '...' : "null",
+                    content: simplemde.value(),
+                    likes: 0,
+                    readed: 0,
+                    publishing_date: "10.12.1999",
+                    is_active: 0,
+                };
+                $.ajax({
+                    url: "../../api/post",
+                    type: "POST",
+                    data: JSON.stringify(postData),
+                    success: function(data, status) {
+                        if (status == 404) {
+                            console.log("Post yüklenemedi");
                         } else {
-                            $("#user-image").attr("src", "../../api/" + data["data"]["user_image"]);
+                            console.log("Post başarıyla Yüklendi!");
+                            location.reload();
                         }
-
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.log("Post işlemi başarısız: " + textStatus);
                     }
                 });
-
-
-
-
             });
-        </script>
+        });
+    </script>
 </body>
 
 </html>
