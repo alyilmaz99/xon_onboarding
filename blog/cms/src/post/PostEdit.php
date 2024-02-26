@@ -12,8 +12,8 @@ if (!isset($_SESSION["is_logged"])) {
     <title>Post Edit</title>
     <html lang="en">
 
-    <link rel="stylesheet" href="src/components/style.css">
-    <link rel="stylesheet" href="src/components/dashboard.css">
+    <link rel="stylesheet" href="../../src/components/style.css">
+    <link rel="stylesheet" href="../../src/components/dashboard.css">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -40,19 +40,25 @@ if (!isset($_SESSION["is_logged"])) {
         </div>
 
         <script>
+            var currentPage = window.location.pathname.split('/');
+
             $(document).ready(function() {
-                $.get("../api/user/<?= $_SESSION["user_id"] ?>", function(data, status) {
+                $.get("../../../api/user/<?= $_SESSION["user_id"] ?>", function(data, status) {
                     if (status == "success") {
                         if (data["data"]["user_image"] == null) {
-                            $("#user-image").attr("src", "../assets/images/Avatar.png");
-
+                            $("#user-image").attr("src", "../../../assets/images/Avatar.png");
                         } else {
-                            $("#user-image").attr("src", "../api/" + data["data"]["user_image"]);
+                            $("#user-image").attr("src", "../../../api/" + data["data"]["user_image"]);
                         }
 
                     }
                 });
-
+                $.get("../../../api/post/" + currentPage[6], function(data, status, xhr) {
+                    if (status == "success" && data.status) {
+                        posts = data.data;
+                        console.log(posts);
+                    }
+                });
 
 
             });

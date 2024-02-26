@@ -9,7 +9,7 @@ if (!isset($_SESSION["is_logged"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post</title>
+    <title>Create Post</title>
     <html lang="en">
 
     <link rel="stylesheet" href="../src/components/style.css">
@@ -28,15 +28,35 @@ if (!isset($_SESSION["is_logged"])) {
             <div class="top-container">
 
                 <div class="top-titles">
-                    <h1 class="dashboard-title">Post</h1>
+                    <h1 class="dashboard-title">Create Post</h1>
                 </div>
                 <div class="profile-image">
                     <img class="user-image" id="user-image" src="" alt="profile-image">
                 </div>
 
             </div>
-            <div class="post-body">
+            <div class="post-create-body">
+                <div class="editor-top">
+                    <div class="editor-actions">
+                        <button type="button" id="editor-bold" class="editor-button">Bold</button>
+                        <button type="button" id="italic" class="editor-button">Italic</button>
+                        <button type="button" id="toUpperCase" class="editor-button">ToUpperCase</button>
+                        <button type="button" id="toLowerCase" class="editor-button ">ToLowerCase</button>
+                        <button type="button" id="align-left" class="editor-button fas fa-align-left"></button>
+                        <button type="button" id="align-center" class="editor-button fas fa-align-center"></button>
+                        <button type="button" id="align-right" class="editor-button fas fa-align-right"></button>
+                    </div>
+                    <div class="editor-title">
+                        <div class="title">
+                            <label for="title">Title:</label><br>
+                            <input type="text" class="text-field" id="title" name="title" value=""><br>
+                            <label for="slug">Slug:</label><br>
+                            <input type="text" class="slug-field" id="slug" name="slug" value=""><br>
+                            <button type="button" id="save" class="save-button">Save</button>
+                        </div>
 
+                    </div>
+                </div>
             </div>
 
         </div>

@@ -11,7 +11,7 @@
                 <span class="list-text">Comments</span></a></li>
         <li class="navbar-li"><a href="profile"><span><img src="" class="nav-icon" /> </span>
                 <span class="list-text">Profile</span></a></li>
-        <li class="navbar-li"><a href="Settings"><span><img src="" class="nav-icon" /> </span>
+        <li class="navbar-li"><a href="settings"><span><img src="" class="nav-icon" /> </span>
                 <span class="list-text">Settings</span></a></li>
         <button class="post-button" id="new-post">&#9997; New Post</button>
     </ul>
@@ -24,7 +24,7 @@
         var currentPage = window.location.pathname.split('/');
         $(".nav-icon").each(function() {
             var iconName = $(this).parent().next(".list-text").text().toLowerCase();
-            var root = currentPage[5] != null ? "../assets/svg/" : "assets/svg/";
+            var root = currentPage[5] != null ? currentPage[6] != null ? "../../assets/svg/" : "../assets/svg/" : "assets/svg/";
             $(this).attr("src", root + iconName + ".svg");
         });
 
@@ -36,12 +36,20 @@
             }
         });
         $("#new-post").on("click", function() {
-            location.replace("post-create");
+            var root = currentPage[6] ? "../../" : "";
+            location.replace(root + "post/new");
         });
 
         $('#navbar-ul li').click(function(e) {
             $('#navbar-ul li span').removeClass("selected");
             $(this).find("span").addClass("selected");
+            e.preventDefault();
+            var href = $(this).find('a').attr('href');
+            var hrefRoot = currentPage[5] != null ? currentPage[6] != null ? "../../" : "../" : "";
+
+
+            window.location.href = hrefRoot + href;
+
         });
     });
 </script>

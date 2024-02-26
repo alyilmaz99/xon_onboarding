@@ -94,7 +94,7 @@ if (!isset($_SESSION["is_logged"])) {
         $(document).ready(function() {
             $.get("../api/user/<?= $_SESSION["user_id"] ?>", function(data, status) {
                 if (status == "success") {
-                    console.log(data["data"])
+
                     $("#welcome-text").append(data["data"]["name"]);
                     if (data["data"]["user_image"] == null) {
                         $("#user-image").attr("src", "assets/images/Avatar.png");

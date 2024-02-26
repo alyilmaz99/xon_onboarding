@@ -22,10 +22,12 @@ class PostController extends BaseController
     {
 
         $data = $this->getPost();
-        $sql = "INSERT INTO posts (title, details, content, likes, readed,publishing_date,is_active, updated_at) VALUES (:title, :details, :content, :likes, :readed,:publishing_date,:is_active, NOW())";
+        $sql = "INSERT INTO posts (title,slug, details, content, likes, readed,publishing_date,is_active, updated_at) VALUES (:title,:slug, :details, :content, :likes, :readed,:publishing_date,:is_active, NOW())";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(":title", $data["title"], PDO::PARAM_STR);
         $stmt->bindValue(":details", $data["details"], PDO::PARAM_STR);
+        $stmt->bindValue(":slug", $data["slug"], PDO::PARAM_STR);
+
         $datetime = DateTime::createFromFormat('d.m.Y', $data["publishing_date"]);
         $mysqlDatetime = $datetime->format('Y-m-d H:i:s');
 
@@ -52,7 +54,6 @@ class PostController extends BaseController
     }
     public function getPostWithID($params)
     {
-        $this->protect();
         $sql = 'SELECT p.*,u.user_id FROM posts as p  LEFT JOIN user_posts as u ON p.id = u.post_id WHERE p.id =:id ';
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':id', $params['id'], PDO::PARAM_INT);
@@ -70,9 +71,7 @@ class PostController extends BaseController
     }
     public function getAllPosts()
     {
-        $sql = 'SELECT p.*, 
-        COUNT(*) as total,
-        SUM(p.readed) as total_readed FROM posts as p LEFT JOIN user_posts as u ON u.post_id = p.id GROUP BY p.id ';
+        $sql = 'SELECT *, (SELECT COUNT(*) FROM posts) as total, (SELECT SUM(p.readed) FROM posts as p ) as total_readed FROM posts ';
         $stmt = $this->db->prepare($sql);
 
         if ($stmt->execute()) {
@@ -117,20 +116,22 @@ class PostController extends BaseController
 
         $data = $this->getPost();
 
-        $title = $details = $content = $likes = $readed = $publishing_date = $is_active = null;
+        $title = $details = $content = $likes = $readed = $publishing_date = $is_active = $slug = null;
 
-        foreach (['publishing_date', "title", "details", "content", "likes", "readed", "is_active"] as $field) {
+        foreach (['publishing_date', "title", "details", "content", "likes", "readed", "is_active", "slug"] as $field) {
             if (isset($data[$field])) {
                 $$field = $data[$field];
             } elseif (isset($post[$field])) {
                 $$field = $post[$field];
             }
         }
-        $sql = "UPDATE posts SET title = :title, details = :details, content = :content , likes = :likes , readed = :readed, publishing_date = :publishing_date, is_active = :is_active, updated_at = NOW() WHERE id = :id";
+        $sql = "UPDATE posts SET title = :title, details = :details,slug = :slug, content = :content , likes = :likes , readed = :readed, publishing_date = :publishing_date, is_active = :is_active, updated_at = NOW() WHERE id = :id";
 
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(":title", $title, PDO::PARAM_STR);
         $stmt->bindValue(":details", $details, PDO::PARAM_STR);
+        $stmt->bindValue(":slug", $slug, PDO::PARAM_STR);
+
         $stmt->bindValue(":content", $content, PDO::PARAM_STR);
 
         $stmt->bindValue(":likes", $likes, PDO::PARAM_INT);

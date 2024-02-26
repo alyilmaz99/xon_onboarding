@@ -172,7 +172,10 @@ if (!isset($_SESSION["is_logged"])) {
                         }
                     });
                 });
-
+                $(document).on("click", ".edit-button", function() {
+                    var postId = $(this).closest("tr").find("td:first").text();
+                    location.replace("post/edit/" + postId);
+                });
             });
         </script>
 </body>

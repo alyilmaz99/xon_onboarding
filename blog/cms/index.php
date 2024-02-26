@@ -11,41 +11,33 @@ if (substr($request_uri, 0, strlen(BASE_DIR)) === BASE_DIR) {
     $request_uri = substr($request_uri, strlen(BASE_DIR));
 }
 
-switch ($request_uri) {
-    case '':
-    case '/':
-        require __DIR__  . SRC_DIR . '/auth/login.view.php';
-        break;
+$routes = [
+    '' => '/auth/login.view.php',
+    '/' => '/auth/login.view.php',
+    '/login' => '/auth/login.view.php',
+    '/dashboard' => '/Dashboard/Dashboard.php',
+    '/post' => '/post/Post.php',
+    '/category' => '/category/Category.php',
+    '/profile' => '/profile/Profile.php',
+    '/settings' => '/Settings/Settings.php',
+    '/comments' => '/Comments/Comments.php',
+    '/post/new' => '/post/PostCreate.php',
+    '/post/edit/(\d+)' => '/post/PostEdit.php'
+];
 
-    case '/login':
-        require __DIR__ . SRC_DIR . '/auth/login.view.php';
+$matched = false;
+foreach ($routes as $route => $file) {
+    if (preg_match("~^$route$~", $request_uri, $matches)) {
+        if (strpos($route, ':') !== false) {
+            $file = preg_replace("~:$~", $matches[1], $file);
+        }
+        require __DIR__ . SRC_DIR . $file;
+        $matched = true;
         break;
+    }
+}
 
-    case '/dashboard':
-        require __DIR__ . SRC_DIR . '/Dashboard/Dashboard.php';
-        break;
-    case '/post':
-        require __DIR__ . SRC_DIR . '/post/Post.php';
-        break;
-    case '/category':
-        require __DIR__ . SRC_DIR . '/category/Category.php';
-        break;
-    case '/profile':
-        require __DIR__ . SRC_DIR . '/profile/Profile.php';
-        break;
-    case '/settings':
-        require __DIR__ . SRC_DIR . '/Settings/Settings.php';
-        break;
-    case '/comments':
-        require __DIR__ . SRC_DIR . '/Comments/Comments.php';
-        break;
-    case '/post/new':
-        require __DIR__ . SRC_DIR . '/post/PostCreate.php';
-        break;
-    case '/post-edit':
-        require __DIR__ . SRC_DIR . '/post/PostEdit.php';
-        break;
-    default:
-        http_response_code(404);
-        require __DIR__   . '/404.php';
+if (!$matched) {
+    http_response_code(404);
+    require __DIR__ . '/404.php';
 }
