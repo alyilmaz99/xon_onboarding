@@ -29,6 +29,9 @@ if (!isset($_SESSION["is_logged"])) {
 
                 <div class="top-titles">
                     <h1 class="dashboard-title">Category</h1>
+
+                    <button style="margin-top:20px" id="new-category" class="save-button">New Category</button>
+
                 </div>
                 <div class="profile-image">
                     <img class="user-image" id="user-image" src="" alt="profile-image">
@@ -134,9 +137,9 @@ if (!isset($_SESSION["is_logged"])) {
                                 data: JSON.stringify(updateData),
                                 success: function(data, status) {
                                     if (status == 404) {
-                                        console.log("Post bulunamadı");
+                                        console.log("Category Değiştirilemedi");
                                     } else {
-                                        console.log("Post başarıyla Değiştirildi!");
+                                        console.log("Category başarıyla Değiştirildi!");
                                         if (activate == 1) {
                                             activateIcon.removeClass("fa-check").addClass("fa-times");
                                             activateButton.closest("tr").find("span").eq(0).removeClass("dot-inactive").addClass("dot-active");
@@ -147,7 +150,7 @@ if (!isset($_SESSION["is_logged"])) {
                                     }
                                 },
                                 error: function(xhr, textStatus, errorThrown) {
-                                    console.log("Update işlemi başarısız: " + textStatus);
+                                    console.log("Category Update işlemi başarısız: " + textStatus);
                                 }
                             });
                         });
@@ -178,6 +181,14 @@ if (!isset($_SESSION["is_logged"])) {
                 $(document).on("click", ".edit-button", function() {
                     var categoryID = $(this).closest("tr").find("td:first").text();
                     location.replace("category/edit/" + categoryID);
+                });
+                $(document).on("click", ".edit-button", function() {
+                    var categoryID = $(this).closest("tr").find("td:first").text();
+                    location.replace("category/edit/" + categoryID);
+                });
+                $("#new-category").on("click", function() {
+                    location.replace("category/new");
+
                 });
             });
         </script>

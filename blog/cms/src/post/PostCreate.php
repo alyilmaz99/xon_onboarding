@@ -46,7 +46,23 @@ if (!isset($_SESSION["is_logged"])) {
                             <label for="slug">Slug:</label><br>
                             <input type="text" class="slug-field" id="slug" name="slug" value=""><br>
                             <button type="button" id="save" class="save-button">Save</button>
+
                         </div>
+                        <div class="post-selections">
+                            <label for="is_active">Is Active:</label><br>
+
+                            <select class="category-field" name="is_active" id="is_active">
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                            <label for="is_active">Is Active:</label><br>
+
+                            <select class="category-field" name="is_active" id="is_active">
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+
                     </div>
 
                 </div>
