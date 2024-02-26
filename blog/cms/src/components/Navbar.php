@@ -4,11 +4,10 @@
         <li class="navbar-li"><a href="dashboard"> <span><img src="assets/svg/home-select.svg" /> </span>
                 <span class="list-text">Dashboard</span></a></li>
         <li class="navbar-li"><a href="post"><span><img src="assets/svg/post.svg" /> </span>
-                <span class="list-text">Posts</span></a></li>
+                <span class="list-text">Post</span></a></li>
         <li class="navbar-li"><a href="category" class="active"><span><img src="assets/svg/documents.svg" /></span>
-                <span class="list-text">Categories</span></a></li>
-
-        <li class="navbar-li"><a href="#"><span><img src="assets/svg/message.svg" /> </span>
+                <span class="list-text">Category</span></a></li>
+        <li class="navbar-li"><a href="comments"><span><img src="assets/svg/message.svg" /> </span>
                 <span class="list-text">Comments</span></a></li>
         <li class="navbar-li"><a href="profile"><span><img src="assets/svg/user.svg" />
                     <span class="list-text">Profile</span></a></li>
@@ -31,7 +30,7 @@
             }
         });
         $("#new-post").on("click", function() {
-            location.replace("post/new");
+            location.replace("post-create");
         });
 
         $('#navbar-ul li').click(function(e) {

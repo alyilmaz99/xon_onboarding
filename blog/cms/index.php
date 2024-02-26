@@ -39,8 +39,11 @@ switch ($request_uri) {
     case '/comments':
         require __DIR__ . SRC_DIR . '/Comments/Comments.php';
         break;
-    case '/post/new':
+    case '/post-create':
         require __DIR__ . SRC_DIR . '/post/PostCreate.php';
+        break;
+    case '/post-edit':
+        require __DIR__ . SRC_DIR . '/post/PostEdit.php';
         break;
     default:
         http_response_code(404);

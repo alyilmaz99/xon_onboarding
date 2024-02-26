@@ -160,3 +160,11 @@ body {
   border: none;
   margin-right: 10px;
 }
+.activate-button {
+  color: white;
+  width: 25px;
+  height: 25px;
+  background-color: rgb(25, 248, 36);
+  border: none;
+  margin-right: 10px;
+}

@@ -71,14 +71,16 @@ if (!isset($_SESSION["is_logged"])) {
 
                     }
                 });
+                var post;
                 $(document).ready(function() {
-                    $.get("../api/post", function(data, status) {
+                    $.get("../api/post", function(data, status, xhr) {
                         if (status == "success" && data.status) {
 
-                            var posts = data.data;
+                            posts = data.data;
 
                             for (var i = 0; i < posts.length; i++) {
                                 var post = posts[i];
+
                                 var newRow = $("<tr>").addClass("post-tr-td");
                                 newRow.append($("<td>").text(post.id));
                                 newRow.append($("<td>").text(post.title));
@@ -89,23 +91,61 @@ if (!isset($_SESSION["is_logged"])) {
                                 newRow.append($("<td>").text(post.updated_at));
 
                                 var actionButtons = $("<td>");
+                                var activateIcon;
+                                post.is_active == 1 ? activateIcon = $("<i>").addClass("fas fa-times") : activateIcon = $("<i>").addClass("fas fa-check");
+
+
+                                var activateButton = $("<button>").addClass("activate-button");
                                 var editButton = $("<button>").addClass("edit-button");
                                 var editIcon = $("<i>").addClass("fas fa-edit");
-
+                                activateButton.append(activateIcon);
                                 editButton.append(editIcon);
                                 var deleteButton = $("<button>").addClass("delete-button");
                                 var deleteIcon = $("<i>").addClass("fas fa-trash-alt");
                                 deleteButton.append(deleteIcon);
                                 deleteButton.attr("id", "delete-button");
                                 editButton.attr("id", "edit-button");
+                                activateButton.attr("id", "edit-activate");
+
                                 actionButtons.append(editButton);
                                 actionButtons.append(deleteButton);
+                                actionButtons.append(activateButton);
                                 newRow.append(actionButtons);
                                 $(".post-table tbody").append(newRow);
                             }
 
 
                         }
+                    }).done(function() {
+                        console.log(window.post)
+                        $(document).on("click", ".activate-button", function() {
+                            var postId = $(this).closest("tr").find("td:first").text();
+                            var activate = $(this).closest("tr").find("td").eq(5).text();
+
+
+                            activate == 1 ? activate = 0 : activate = 1;
+                            var updateData = {
+                                is_active: activate,
+
+                            };
+                            $.ajax({
+                                url: "../api/post/" + postId,
+                                type: "PUT",
+                                data: JSON.stringify(updateData),
+                                success: function(data, status) {
+                                    if (status == 404) {
+                                        console.log("Post bulunamadı");
+                                    } else {
+                                        console.log("Post başarıyla Değiştirildi!");
+                                        location.reload();
+                                    }
+                                },
+                                error: function(xhr, textStatus, errorThrown) {
+                                    console.log("Update işlemi başarısız: " + textStatus);
+                                }
+                            });
+                        });
+
                     });
                 });
 
@@ -127,7 +167,6 @@ if (!isset($_SESSION["is_logged"])) {
                         }
                     });
                 });
-
 
             });
         </script>

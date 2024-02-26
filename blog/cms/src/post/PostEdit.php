@@ -9,7 +9,7 @@ if (!isset($_SESSION["is_logged"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <title>Post Edit</title>
     <html lang="en">
 
     <link rel="stylesheet" href="src/components/style.css">
@@ -28,7 +28,7 @@ if (!isset($_SESSION["is_logged"])) {
             <div class="top-container">
 
                 <div class="top-titles">
-                    <h1 class="dashboard-title">Profile</h1>
+                    <h1 class="dashboard-title">Post Edit</h1>
                 </div>
                 <div class="profile-image">
                     <img class="user-image" id="user-image" src="" alt="profile-image">
