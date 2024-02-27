@@ -25,8 +25,7 @@ if (!isset($_SESSION["is_logged"])) {
         <?php require_once("src/components/Navbar.php"); ?>
 
         <div class="center">
-            <div class="top-container">
-
+            <div class="post-top-container">
                 <div class="top-titles">
                     <h1 class="dashboard-title">Post</h1>
                 </div>
