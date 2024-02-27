@@ -37,10 +37,11 @@ if (!isset($_SESSION["is_logged"])) {
                 </div>
 
             </div>
+
             <div class="post-create-body">
                 <div class="editor-top">
-                    <div class="editor-title">
-                        <div class="title">
+                    <div class="post-row">
+                        <div class="post-size-fixer">
                             <label for="title">Title:</label><br>
                             <input type="text" class="text-field" id="title" name="title" value=""><br>
                             <label for="slug">Slug:</label><br>
@@ -48,21 +49,27 @@ if (!isset($_SESSION["is_logged"])) {
                             <button type="button" id="save" class="save-button">Save</button>
 
                         </div>
-                        <div class="post-selections">
-                            <label for="is_active">Is Active:</label><br>
+                    </div>
 
-                            <select class="category-field" name="is_active" id="is_active">
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
-                            </select>
-                            <label for="is_active">Is Active:</label><br>
+                </div>
+                <div class="editor-top">
+                    <div class="post-row">
+                        <label for="is_active">Is Active:</label><br>
 
-                            <select class="category-field" name="is_active" id="is_active">
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
-                            </select>
-                        </div>
+                        <select class="category-field" name="is_active" id="is_active">
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                        <label for="created_by">Created By:</label><br>
 
+                        <select class="category-field" name="created_by" id="created_by">
+
+                        </select>
+                        <label for="category">Category:</label><br>
+
+                        <select class="category-field" name="category" id="category">
+
+                        </select>
                     </div>
 
                 </div>
@@ -100,6 +107,25 @@ if (!isset($_SESSION["is_logged"])) {
                     input.setSelectionRange(0, 0);
                 }, 0);
             });
+            $.get("../../api/user", function(data, status) {
+                if (status == "success") {
+
+                    for (var i = 0; i < data.data.length; i++) {
+                        $("#created_by").append("<option value='" + data.data[i].id + "'>" + data.data[i].name + "</option>");
+                    }
+
+                }
+            });
+
+            $.get("../../api/category", function(data, status) {
+                if (status == "success") {
+
+                    for (var i = 0; i < data.data.length; i++) {
+                        $("#category").append("<option value='" + data.data[i].id + "'>" + data.data[i].name + "</option>");
+                    }
+
+                }
+            });
 
             $.get("../../api/user/<?= $_SESSION["user_id"] ?>", function(data, status) {
                 if (status == "success") {
@@ -134,8 +160,28 @@ if (!isset($_SESSION["is_logged"])) {
                         if (status == 404) {
                             console.log("Post yüklenemedi");
                         } else {
+                            console.log(data.message)
+                            var categoryPostData = {
+                                post_id: data.message,
+                                user_id: <?php echo $_SESSION["user_id"]; ?>
+                            };
                             console.log("Post başarıyla Yüklendi!");
-                            location.reload();
+                            $.ajax({
+                                url: "../../api/category/post/" + $("#category").val(),
+                                type: "POST",
+                                data: JSON.stringify(categoryPostData),
+                                success: function(data, status) {
+                                    if (status == 404) {
+                                        console.log("Category post yüklenemedi");
+                                    } else {
+                                        console.log("category post başarıyla Yüklendi!");
+
+                                    }
+                                },
+                                error: function(xhr, textStatus, errorThrown) {
+                                    console.log("category post işlemi başarısız: " + data);
+                                }
+                            });
                         }
                     },
                     error: function(xhr, textStatus, errorThrown) {

@@ -40,15 +40,15 @@ class PostController extends BaseController
         if (!$stmt->execute()) {
             Response::json(false, 'Hata oluştu! Hata:' . $stmt->errorInfo()[2], '', 404);
         } else {
-
+            $post_id = $this->db->lastInsertId();
             $sql = "INSERT INTO user_posts (user_id,post_id,updated_at) VALUES (:user_id,:post_id,NOW())";
             $stmt = $this->db->prepare($sql);
             $stmt->bindValue(":user_id", $data["user_id"], PDO::PARAM_INT);
-            $stmt->bindValue(":post_id", $this->db->lastInsertId(), PDO::PARAM_INT);
+            $stmt->bindValue(":post_id", $post_id, PDO::PARAM_INT);
             if (!$stmt->execute()) {
                 Response::json(false, "Hata oluştu! Hata: " . $stmt->errorInfo()[2], "User Posts oluşturulamadı!", 404);
             } else {
-                Response::json(true, "Post Oluşturuldu!", $data, 200);
+                Response::json(true, $post_id, $data, 200);
             }
         }
     }

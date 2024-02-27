@@ -185,7 +185,7 @@ class CategoryController extends BaseController
         $sql = "INSERT INTO category_posts (user_id, category_id, post_id,updated_at) VALUES (:user_id, :category_id, :post_id, NOW() )";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(":user_id", $checker["created_by"], PDO::PARAM_INT);
+        $stmt->bindValue(":user_id", $data["user_id"], PDO::PARAM_INT);
         $stmt->bindValue(":category_id", $checker["id"], PDO::PARAM_INT);
         $stmt->bindValue(":post_id", $data["post_id"], PDO::PARAM_INT);
 
