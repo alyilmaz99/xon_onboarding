@@ -34,7 +34,26 @@
         </div>
         <div class="body">
             <div class="left-column">
+                <div class="left-title">
+                    <span class="left-title-span">
+                        Selam Ben Ali!
+                    </span>
+                </div>
+                <div class="left-content">
+                    <span class="left-content-span">
+                        Lorem ipsum dolor sit amet consectetur adipiscing elit, pellentesque congue dui fermentum ultricies odio imperdiet hendrerit, cursus dictumst mi facilisis curabitur dis. Risus enim ac montes viverra at sociis in. Volutpat nec fusce magnis aliquet duis vehicula, phasellus nascetur porta lacus tortor curae </span>
+                </div>
+                <div class="explore">
+                    <div class="explore-text">
+                        <span>
+                            Explore Me
+                        </span>
+                    </div>
+                    <div class="explore-icon">
+                        <span>&#62;</span>
 
+                    </div>
+                </div>
             </div>
             <div class="right-column">
                 <div class="right-title">
@@ -66,72 +85,7 @@
                 </div>
                 <div class="recent-posts">
                     <div class="posts">
-                        <div class="post">
-                            <div class="post-list">
-                                <span class="date">September 10.1999</span>
-                            </div>
-                            <div class="post-list">
-                                <span class="post-title">Lorem ipsum dolor sit amet consectetur adipiscing elit </span>
 
-                            </div>
-                            <div class="post-hr">
-                                <hr>
-
-                            </div>
-                        </div>
-                        <div class="post">
-                            <div class="post-list">
-                                <span class="date">September 10.1999</span>
-                            </div>
-                            <div class="post-list">
-                                <span class="post-title">Lorem ipsum dolor sit amet consectetur adipiscing elit </span>
-
-                            </div>
-                            <div class="post-hr">
-                                <hr>
-
-                            </div>
-                        </div>
-                        <div class="post">
-                            <div class="post-list">
-                                <span class="date">September 10.1999</span>
-                            </div>
-                            <div class="post-list">
-                                <span class="post-title">Lorem ipsum dolor sit amet consectetur adipiscing elit </span>
-
-                            </div>
-                            <div class="post-hr">
-                                <hr>
-
-                            </div>
-                        </div>
-                        <div class="post">
-                            <div class="post-list">
-                                <span class="date">September 10.1999</span>
-                            </div>
-                            <div class="post-list">
-                                <span class="post-title">Lorem ipsum dolor sit amet consectetur adipiscing elit </span>
-
-                            </div>
-                            <div class="post-hr">
-                                <hr>
-
-                            </div>
-
-                        </div>
-                        <div class="post">
-                            <div class="post-list">
-                                <span class="date">September 10.1999</span>
-                            </div>
-                            <div class="post-list">
-                                <span class="post-title">Lorem ipsum dolor sit amet consectetur adipiscing elit </span>
-
-                            </div>
-                            <div class="post-hr">
-                                <hr>
-
-                            </div>
-                        </div>
                     </div>
                     <div class="pages">
                         <p>Pages</p>
@@ -144,6 +98,33 @@
 
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $.get("../api/post", function(data, status, xhr) {
+                if (status == "success" && data.status) {
+                    var posts = data.data;
+                    var postContainer = $(".posts");
+
+                    posts.forEach(function(post) {
+                        var postDiv = $("<div class='post'></div>");
+                        var postList1 = $(" <div class='post-list'></div>");
+                        var postList2 = $(" <div class='post-list'></div>");
+                        var dateSpan = $("<span class='date'>" + post.publishing_date + "</span>");
+                        var postHr = $("<div class='post-hr'> <hr></div>")
+                        var postTitleSpan = $("<span class='post-title'>" + post.title + "</span>");
+                        postList1.append(dateSpan);
+                        postList2.append(postTitleSpan);
+                        postDiv.append(postList1);
+                        postDiv.append(postList2);
+                        postDiv.append(postHr);
+
+                        postContainer.append(postDiv);
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
