@@ -69,6 +69,23 @@ class PostController extends BaseController
             Response::json(false, 'Post Getirilemedi! Hata: ' . $errorInfo[2], '', 404);
         }
     }
+    public function getPostWithSlug($params)
+    {
+        $sql = 'SELECT p.*,u.user_id FROM posts as p  LEFT JOIN user_posts as u ON p.id = u.post_id WHERE p.slug =:slug ';
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':slug', $params['id'], PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            if (empty($result)) {
+                Response::json(false, 'Post bulunamadi!', $result,  404);
+            }
+            Response::json(true, 'Post Getirildi!', $result);
+        } else {
+            $errorInfo = $stmt->errorInfo();
+            Response::json(false, 'Post Getirilemedi! Hata: ' . $errorInfo[2], '', 404);
+        }
+    }
     public function getAllPosts()
     {
         $sql = 'SELECT *, (SELECT COUNT(*) FROM posts) as total, (SELECT SUM(p.readed) FROM posts as p ) as total_readed FROM posts ';

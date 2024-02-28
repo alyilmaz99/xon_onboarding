@@ -97,6 +97,10 @@ api("GET", "post", function () {
     $controller = new PostController();
     $controller->getAllPosts();
 });
+api("GET", "postWithSlug/:id", function ($slug) {
+    $controller = new PostController();
+    $controller->getPostWithSlug($slug);
+});
 api("PUT", "post/:id", function ($params) {
     $controller = new PostController();
     $controller->update($params);
