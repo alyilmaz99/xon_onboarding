@@ -29,9 +29,6 @@ function fileOpener()
     }
 }
 
-if (!isset($argv[1]) || $argv[1] === "help" || $argv[1] === "-h") {
-    help();
-}
 
 if (isset($argv[1]) && ($argv[1] == "list" || $argv[1] == "-l")) {
 
@@ -49,7 +46,7 @@ if (isset($argv[1]) && ($argv[1] == "list" || $argv[1] == "-l")) {
     }
 }
 
-if (isset($argv[1]) && $argv[1] == "add" && isset($argv[2]) && !empty($argv[2])) {
+if (isset($argv[1]) &&  isset($argv[2]) && ($argv[1] == "add" ||  $argv[1] == "-a")) {
 
     $content = $argv[2];
     $taskId = addNewTask($content);
@@ -59,6 +56,35 @@ if (isset($argv[1]) && $argv[1] == "add" && isset($argv[2]) && !empty($argv[2]))
     if ($data) {
         maskData($data);
     }
+}
+if (isset($argv[1]) &&  isset($argv[2]) && ($argv[1] == "remove" ||  $argv[1] == "-r")) {
+
+
+    if (isset($argv[2]) && $argv[2] == "all") {
+
+        $return =  deleteAllTasks();
+        if ($return) {
+            printf("\033[92mTüm tasks başarıyla silindi!\033[0m \n");
+        } else {
+            printf("\033[31mTüm tasks başarıyla silinemedi!\033[0m \n");
+        }
+    } else {
+        $content = $argv[2];
+        $taskId = deleteTask($content);
+        if (!$taskId) {
+            printf("\033[31mID: $content başarıyla silinemedi!\033[0m \n");
+        } else {
+            $data = getList();
+            if ($data) {
+                maskData($data);
+            }
+            printf("\033[92mID: $content başarıyla silindi!\033[0m \n");
+        }
+    }
+}
+
+if (!isset($argv[1]) || $argv[1] === "help" || $argv[1] === "-h") {
+    help();
 }
 
 
@@ -89,7 +115,7 @@ function getList()
 
 function maskData($data)
 {
-    $mask = "\033[33m| %5.5s | %-30.30s | %7s |\033[0m \n";
+    $mask = "\033[33m| %-5.5s | %-50.50s | %-10s |\033[0m \n";
     printf($mask, "ID", 'Content', "Status");
 
     for ($i = 0; $i < count($data); $i++) {
@@ -140,7 +166,40 @@ function getListWithID($id)
         return $data;
     }
 }
+function deleteTask($id)
+{
+    global $db;
+    $check = getListWithID($id);
+    if (!$check) {
+        printf("\033[31mTask Bulunamadı Bulunamadı!\033[0m \n");
+        return false;
+    } else {
+        $sql = "DELETE FROM task WHERE id = :id";
 
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+        if (!$stmt->execute()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
+function deleteAllTasks()
+{
+    global $db;
+
+    $sql = "TRUNCATE TABLE task;";
+
+    $stmt = $db->prepare($sql);
+
+    if (!$stmt->execute()) {
+        return false;
+    } else {
+        return true;
+    }
+}
 
 function addNewTask($content)
 {
