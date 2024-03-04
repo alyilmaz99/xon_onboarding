@@ -33,7 +33,7 @@ if (!isset($argv[1]) || $argv[1] === "help" || $argv[1] === "-h") {
     help();
 }
 
-if (isset($argv[1]) == "list") {
+if (isset($argv[1]) && ($argv[1] == "list" || $argv[1] == "-l")) {
 
     if (isset($argv[2])) {
         $exploded_argv = explode("=", $argv[2]);
@@ -49,11 +49,24 @@ if (isset($argv[1]) == "list") {
     }
 }
 
+if (isset($argv[1]) && $argv[1] == "add" && isset($argv[2]) && !empty($argv[2])) {
+
+    $content = $argv[2];
+    $taskId = addNewTask($content);
+    if ($taskId) {
+        $data = getListWithID($taskId);
+    }
+    if ($data) {
+        maskData($data);
+    }
+}
+
+
 function help()
 {
     printf("-l,list --filter=done or pending %2s for listing tasks \n", "  ");
     printf("-h or help %24s for help \n", " ");
-    printf("-h or help %24s for help \n", " ");
+    printf("-a or add %24s for adding content \n", " ");
 }
 
 
@@ -107,6 +120,41 @@ function getListWithStatus($status)
         return false;
     } else {
         return $data;
+    }
+}
+function getListWithID($id)
+{
+    global $db;
+
+    $sql = "SELECT * FROM task WHERE id = :id";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+    if (!$stmt->execute()) {
+        echo "Error" . $stmt->errorInfo() . "\n";
+    }
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (empty($data)) {
+        return false;
+    } else {
+        return $data;
+    }
+}
+
+
+function addNewTask($content)
+{
+    global $db;
+
+    $sql = "INSERT INTO task (status, content) VALUES(:status, :content)";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(":status", 0, PDO::PARAM_INT);
+    $stmt->bindValue(":content", $content, PDO::PARAM_STR);
+    if (!$stmt->execute()) {
+        echo "Error" . $stmt->errorInfo() . "\n";
+        return false;
+    } else {
+        return $db->lastInsertId();
     }
 }
 function getDeviceInfo()
