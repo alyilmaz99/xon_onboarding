@@ -20,18 +20,18 @@ if (PHP_SAPI != "cli") {
     exit;
 }
 printf("\033[92mMerhaba: %6.9s \n\n", $userInfo["username"]);
-function fileOpener()
-{
-    if (!defined("STDIN")) {
-        define("STDIN", fopen('php://stdin', 'r'));
-        $line = fgets(STDIN);
-        return $line;
+
+
+if (isset($argv[1]) && ($argv[1] == "list" || $argv[1] == "-l"  || $argv[1] == "-list")) {
+
+    if (isset($argv[2]) && (is_numeric($argv[2]) && intval($argv[2]) == $argv[2])) {
+
+        $data = getListWithID($argv[2]);
+        if ($data) {
+            maskData($data);
+        }
+        return;
     }
-}
-
-
-if (isset($argv[1]) && ($argv[1] == "list" || $argv[1] == "-l")) {
-
     if (isset($argv[2])) {
         $exploded_argv = explode("=", $argv[2]);
         $data =  getListWithStatus($exploded_argv[1]);
@@ -46,7 +46,7 @@ if (isset($argv[1]) && ($argv[1] == "list" || $argv[1] == "-l")) {
     }
 }
 
-if (isset($argv[1]) &&  isset($argv[2]) && ($argv[1] == "add" ||  $argv[1] == "-a")) {
+if (isset($argv[1]) &&  isset($argv[2]) && ($argv[1] == "add" ||  $argv[1] == "-a" || $argv[1] == "-add")) {
 
     $content = $argv[2];
     $taskId = addNewTask($content);
@@ -57,7 +57,7 @@ if (isset($argv[1]) &&  isset($argv[2]) && ($argv[1] == "add" ||  $argv[1] == "-
         maskData($data);
     }
 }
-if (isset($argv[1]) &&  isset($argv[2]) && ($argv[1] == "remove" ||  $argv[1] == "-r")) {
+if (isset($argv[1]) &&  isset($argv[2]) && ($argv[1] == "remove" ||  $argv[1] == "-r" || $argv[1] == "-remove")) {
 
 
     if (isset($argv[2]) && $argv[2] == "all") {
@@ -83,6 +83,35 @@ if (isset($argv[1]) &&  isset($argv[2]) && ($argv[1] == "remove" ||  $argv[1] ==
     }
 }
 
+if (isset($argv[1]) &&  isset($argv[2]) && isset($argv[3]) && ($argv[1] == "update" ||  $argv[1] == "-u" || $argv[1] == "-update")) {
+    $id = $argv[2];
+    $contetn = $argv[3];
+    $return_update = updateTasks($id, $contetn);
+    if ($return_update) {
+        printf("\033[92mID: $id başarıyla update edildi!\033[0m \n");
+    } else {
+        printf("\033[31mTask Update Edilemedi!\033[0m \n");
+    }
+}
+
+if (isset($argv[1]) &&  isset($argv[2]) && ($argv[1] == "done" ||  $argv[1] == "pending")) {
+    $id = $argv[2];
+    $status = $argv[1];
+    if ($status == "done") {
+        $status = 1;
+    } else {
+        $status = 0;
+    }
+
+    $return_update = changeStatus($id, $status);
+    if ($return_update) {
+        printf("\033[92mID: $id başarıyla update edildi!\033[0m \n");
+    } else {
+        printf("\033[31mTask Update Edilemedi!\033[0m \n");
+    }
+}
+
+
 if (!isset($argv[1]) || $argv[1] === "help" || $argv[1] === "-h") {
     help();
 }
@@ -90,9 +119,12 @@ if (!isset($argv[1]) || $argv[1] === "help" || $argv[1] === "-h") {
 
 function help()
 {
-    printf("-l,list --filter=done or pending %2s for listing tasks \n", "  ");
-    printf("-h or help %24s for help \n", " ");
-    printf("-a or add %24s for adding content \n", " ");
+    printf("-l,list with [id], --filter=done or pending %2s for listing tasks \n", "  ");
+    printf("-h or help %35s for help \n", " ");
+    printf("-a or add [text]%30s for adding task \n", " ");
+    printf("-r or remove [id] or remove all %14s for removing task \n", " ");
+    printf("-u or update [id] [text] %21s for update task \n", " ");
+    printf("done or pending [id] %25s for update task status\n", " ");
 }
 
 
@@ -200,7 +232,51 @@ function deleteAllTasks()
         return true;
     }
 }
+function updateTasks($id, $text)
+{
+    global $db;
+    $checker = getListWithID($id);
+    if (!$checker) {
+        return false;
+    }
+    if (empty($text)) {
+        return false;
+    }
 
+    $sql = "UPDATE task SET content= :content WHERE id = :id";
+
+    $stmt = $db->prepare($sql);
+
+    $stmt->bindValue(":content", $text, PDO::PARAM_STR);
+
+    $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+
+    if (!$stmt->execute()) {
+        return false;
+    }
+    return true;
+}
+function changeStatus($id, $status)
+{
+    global $db;
+    $checker = getListWithID($id);
+    if (!$checker) {
+        return false;
+    }
+
+    $sql = "UPDATE task SET status= :status WHERE id = :id";
+
+    $stmt = $db->prepare($sql);
+
+    $stmt->bindValue(":status", $status, PDO::PARAM_INT);
+
+    $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+
+    if (!$stmt->execute()) {
+        return false;
+    }
+    return true;
+}
 function addNewTask($content)
 {
     global $db;
