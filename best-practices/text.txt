@@ -1,0 +1,27 @@
+# LEAKS
+- sql injection, xss,csrf, php object injection, session hijacking, stream injection attacks, bad php configuration, un-validated user inputs, reflected xss, stored xss, dom-based xss, idor , insecure deserialization, ssji, 
+
+
+SQL injection
+-------
+Sql sorgularının dışardan gelebilecek zararlı kodların var olabileceğini düşünmeden yazmaktan kaynaklı açıklara denir.
+Gelen değerlerin kontrolsüz ve temizlenmeden eklenmesi durumunda zararlı olabilecek kodları sql sorgusunun devamı olarak işleme bastırabiliriz.
+
+xss
+--------
+genellikle kontrolsüz kullanıcı girdilerinden kaynaklanır. Bu sayede kullanıcı zararlı bir kodu yükleyerek güvenilir kaynaktan geliyor olarak gözüküp önemli bilgileri elde edebilir veya gösterebilir.
+
+
+csrf
+--------
+get ve session kaynaklı bir kullanıcının taklidini yaparak onun gibi davranabiliyoruz bu açık ile. Kaçınmak için token kullanımı güzel bir yöntem. Önemli içeriklerde get yerine post kullanımı da tercih edilebilir.
+
+php object injection 
+--------
+kullanıcı inputunun unserialize fonksiyonun geçilmesi ile wakeup ve destruct mettotlarının tetiklenmesiyle gerçekleşir.
+json_encode kullanılarak kaçınılabilir bu injectiondan. 
+
+session hijacking 
+--------
+kullanıcı oturumlarının ele geçirilmesini içeren saldırı türü. Şifreleme kullanılmazsa oturum kimlikleri kolay bir şekilde dinlenebilir.
+oturum ele geçirilince bir ele geçirilen oturumun tüm yetkilerine erişebilir. 
