@@ -15,8 +15,7 @@ $routes = [
     '' => '/home/HomePage.php',
     '/' => '/home/HomePage.php',
     '/home' => '/home/HomePage.php',
-    "/post" => "/post/Post.php"
-
+    '/post' => '/post/Post.php',
 ];
 
 $matched = false;
@@ -29,6 +28,12 @@ foreach ($routes as $route => $file) {
         $matched = true;
         break;
     }
+}
+
+if (!$matched && preg_match("~^/post/([^/]+)$~", $request_uri, $matches)) {
+    $slug = $matches[1];
+    require __DIR__ . SRC_DIR . '/post/Post.php';
+    $matched = true;
 }
 
 if (!$matched) {

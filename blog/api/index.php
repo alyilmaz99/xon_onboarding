@@ -18,9 +18,6 @@ header("Content-type: application/json; charset=UTF-8");
 
 const BASE_DIR = '/xon_onboarding/blog/api/';
 
-$parts = explode("/", $_SERVER["REQUEST_URI"]);
-
-
 $database = Database::Initialize("localhost", "blog", "root", "Ali.2901");
 
 $request_uri = $_SERVER['REQUEST_URI'];
@@ -36,7 +33,7 @@ function api(string $method, string $path, $handler)
         return;
     }
 
-    $regex = preg_replace('/:[a-zA-Z0-9_]+/', '([a-zA-Z0-9_]+)', $path);
+    $regex = preg_replace('/:[a-zA-Z0-9_-]+/', '([a-zA-Z0-9_-]+)', $path);
     $regex = '/^' . str_replace('/', '\/', $regex) . '$/';
 
     $exploded = explode('/', $path);
@@ -60,6 +57,7 @@ function api(string $method, string $path, $handler)
         die();
     }
 }
+
 api('POST', 'user', function () {
     $controller = new UserController();
     $controller->createUser();

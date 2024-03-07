@@ -55,6 +55,7 @@ class PostController extends BaseController
     }
     public function getPostWithID($params)
     {
+
         $sql = 'SELECT p.*,u.user_id FROM posts as p  LEFT JOIN user_posts as u ON p.id = u.post_id WHERE p.id =:id ';
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':id', $params['id'], PDO::PARAM_INT);

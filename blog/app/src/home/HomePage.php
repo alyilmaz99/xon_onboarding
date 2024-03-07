@@ -123,7 +123,7 @@
                             var postDiv = $("<div class='post'></div>");
                             var postList1 = $("<div class='post-list'></div>");
                             var postList2 = $("<div class='post-list'></div>");
-                            var postLink = $("<a>").attr("href", post.slug).text(post.title);
+                            var postLink = $("<a>").attr("href", "post/" + post.slug).text(post.title);
 
                             var postTitleSpan = $("<span class='post-title'></span>");
                             postTitleSpan.append(postLink);
