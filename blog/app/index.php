@@ -14,6 +14,7 @@ if (substr($request_uri, 0, strlen(BASE_DIR)) === BASE_DIR) {
 $routes = [
     '' => '/home/HomePage.php',
     '/' => '/home/HomePage.php',
+    '/home' => '/home/HomePage.php',
     "/post" => "/post/Post.php"
 
 ];

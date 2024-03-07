@@ -20,16 +20,15 @@
                 <p> Ali Yılmaz</p>
             </div>
             <ul class="navbar-ul" id="navbar-ul">
-                <li class="navbar-li"><a href=""> <span><img src="" class="nav-icon" /> </span>
+                <li class="navbar-li"><a href="home"> <span><img src="" class="nav-icon" /> </span>
                         <span class="list-text">Home</span></a></li>
-                <li class="navbar-li"><a href=""><span><img src="" class="nav-icon" /> </span>
+                <li class="navbar-li"><a href="blog"><span><img src="" class="nav-icon" /> </span>
                         <span class="list-text">Blog</span></a></li>
-                <li class="navbar-li"><a href=""><span><img src="" class="nav-icon" /></span>
+                <li class="navbar-li"><a href="category"><span><img src="" class="nav-icon" /></span>
                         <span class="list-text">Category</span></a></li>
-                <li class="navbar-li"><a href=""><span><img src="" class="nav-icon" /> </span>
+                <li class="navbar-li"><a href="contact"><span><img src="" class="nav-icon" /> </span>
                         <span class="list-text">Contact</span></a></li>
-                <li class="navbar-li"><a href=""><span><img src="" class="nav-icon" /> </span>
-                        <span class="list-text">Search</span></a></li>
+
             </ul>
         </div>
         <div class="body">
@@ -60,23 +59,12 @@
                     <p>Recent Posts</p>
                 </div>
                 <div class="right-category">
-                    <ul class="body-ul" id="nody-ul">
+                    <ul class="body-ul" id="body-ul">
                         <li class="left-arrow">
                             <span class="left-arrow">&#60;</span>
                         </li>
-                        <li class="body-li"><a href=""> <span><img src="" class="nav-icon" /> </span>
-                                <span class="list-text">Home</span></a></li>
-                        <li class="body-li"><a href=""><span><img src="" class="nav-icon" /> </span>
-                                <span class="list-text">Blog</span></a></li>
-                        <li class="body-li"><a href=""><span><img src="" class="nav-icon" /></span>
-                                <span class="list-text">Category</span></a></li>
-                        <li class="body-li"><a href=""><span><img src="" class="nav-icon" /> </span>
-                                <span class="list-text">Contact</span></a></li>
-                        <li class="body-li"><a href=""><span><img src="" class="nav-icon" /> </span>
-                                <span class="list-text">Search</span></a></li>
-                        <li class="right-arrow">
-                            <span class="right-arrow">&#62;</span>
-                        </li>
+
+
                     </ul>
                 </div>
                 <div class="body-hr">
@@ -87,10 +75,14 @@
                     <div class="posts">
 
                     </div>
-                    <div class="pages">
-                        <p>Pages</p>
+                    <div class="page-numbers">
+                        <div class="number-row">
+
+
+                        </div>
                     </div>
                 </div>
+
             </div>
 
         </div>
@@ -101,28 +93,79 @@
 
     <script>
         $(document).ready(function() {
-            $.get("../api/post", function(data, status, xhr) {
-                if (status == "success" && data.status) {
-                    var posts = data.data;
-                    var postContainer = $(".posts");
+            createPosts(1);
+            createCategory();
 
-                    posts.forEach(function(post) {
-                        var postDiv = $("<div class='post'></div>");
-                        var postList1 = $(" <div class='post-list'></div>");
-                        var postList2 = $(" <div class='post-list'></div>");
-                        var dateSpan = $("<span class='date'>" + post.publishing_date + "</span>");
-                        var postHr = $("<div class='post-hr'> <hr></div>")
-                        var postTitleSpan = $("<span class='post-title'>" + post.title + "</span>");
-                        postList1.append(dateSpan);
-                        postList2.append(postTitleSpan);
-                        postDiv.append(postList1);
-                        postDiv.append(postList2);
-                        postDiv.append(postHr);
+            $(document).on("click", ".page-number", function() {
+                var pageNumber = $(this).text();
 
-                        postContainer.append(postDiv);
-                    });
-                }
+                $(".posts").empty();
+                createPosts(pageNumber);
             });
+
+
+
+            function createPageNumbers(totalPages) {
+                var pageNumbersContainer = $(".page-numbers ");
+                pageNumbersContainer.empty();
+                for (var i = 1; i <= totalPages; i++) {
+                    var pageNumberButton = $("<button>").addClass("page-number").text(i);
+                    pageNumbersContainer.append(pageNumberButton);
+                }
+            }
+
+            function createPosts(page) {
+                $.get("../api/post/page/" + page, function(data, status, xhr) {
+                    if (status == "success" && data.status) {
+                        var posts = data.data;
+                        var postContainer = $(".posts");
+                        posts.posts.forEach(function(post) {
+                            var postDiv = $("<div class='post'></div>");
+                            var postList1 = $(" <div class='post-list'></div>");
+                            var postList2 = $(" <div class='post-list'></div>");
+                            var dateSpan = $("<span class='date'>" + post.publishing_date + "</span>");
+                            var postHr = $("<div class='post-hr'> <hr></div>")
+                            var postTitleSpan = $("<span class='post-title'>" + post.title + "</span>");
+                            postList1.append(dateSpan);
+                            postList2.append(postTitleSpan);
+                            postDiv.append(postList1);
+                            postDiv.append(postList2);
+                            postDiv.append(postHr);
+                            postContainer.append(postDiv);
+                        });
+                        var pages = Math.ceil(posts.total_post / posts.perPage);
+
+                        createPageNumbers(pages);
+                    }
+                });
+            }
+
+
+            function createCategory() {
+                $(document).ready(function() {
+                    $.get("../api/category", function(data, status, xhr) {
+                        if (status == "success" && data.status) {
+                            var categories = data.data;
+                            var postContainer = $(".posts");
+                            categories.forEach(function(category) {
+                                var body_li = $(" <li class='body-li'> </li>");
+                                var category_link = $(" <a href=''></a>");
+                                var span = $("<span class='list-text'>" + category.name + "</span>");
+                                category_link.append(span);
+                                body_li.append(category_link);
+                                $("#body-ul").append(body_li);
+                            });
+                            if (categories.length > 4) {
+                                var arrow_span = $(" <span class = 'right-arrow' ></span>");
+                                arrow_span.append("&#62;");
+                                var arrow = $("<li class='right-arrow'></li>");
+                                arrow.append(arrow_span);
+                                $("#body-ul").append(arrow);
+                            }
+                        }
+                    });
+                });
+            }
         });
     </script>
 </body>

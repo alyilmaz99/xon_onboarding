@@ -116,7 +116,7 @@ class PostController extends BaseController
     }
     public function getPostWithPage($page)
     {
-        $perPage = 10;
+        $perPage = 5;
         $start = ($page["id"] - 1) * $perPage;
 
         $sql = 'SELECT COUNT(*) as total_post FROM posts';
