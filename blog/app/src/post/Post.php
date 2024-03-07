@@ -51,7 +51,9 @@
                     </div>
                 </div>
                 <div class="post-content-body">
-
+                    <div class="post-thumbnail">
+                        <img class="thumbnail" src="" alt="post-thumbnail">
+                    </div>
                     <div class="post-content">
 
                     </div>
@@ -75,11 +77,22 @@
                     var post = data.data;
                     console.log(post);
                     $('.category-name').text(post.category_name);
-                    $('.post-title').text(post.title);
+                    $('.post-body-title').text(post.title);
                     $('.post-date').text(post.created_at);
-                    $('.post-writer').text(post.author_name);
+
                     $('.post-content').html(post.content);
-                    $('.thumbnail img').attr('src', post.thumbnail_url);
+                    $('.post-thumbnail img').attr('src', "../../api/" + post.thumbnail);
+                    console.log(post.user_id);
+                    $.get("../../api/user/" + post.user_id, function(data, status, xhr) {
+                        if (status == "success" && data.status) {
+                            var post = data.data;
+                            console.log(post);
+
+                            $('.post-writer').text(post.name);
+
+
+                        }
+                    });
                 }
             });
         });
