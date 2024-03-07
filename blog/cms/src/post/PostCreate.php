@@ -70,10 +70,19 @@ if (!isset($_SESSION["is_logged"])) {
                         <select class="category-field" name="category" id="category">
 
                         </select>
+                        <div class="post-image">
+                            <label for="category">Thumbnail:</label><br>
+
+                            <label class="thumbnail-label" id="thumbnail-label" for="thumbnail">Upload<input class="thumbnail" type="file" name="thumbnail" id="thumbnail"> </label>
+
+                        </div>
                     </div>
 
-                </div>
 
+                </div>
+                <div class="thumbnail-container">
+                    <img class="thumbnail-preview" id="thumbnail-preview" src="#">
+                </div>
                 <div class="textarea-box">
                     <textarea class="textarea">
                 </textarea>
@@ -98,6 +107,18 @@ if (!isset($_SESSION["is_logged"])) {
         });
 
 
+        $('#thumbnail').on('change', function() {
+            var file = this.files[0];
+
+            console.log("Seçilen dosya adı: " + file.name);
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#thumbnail-preview').attr('src', e.target.result);
+                $('#thumbnail-preview').attr('style', "display: flex;");
+            }
+            reader.readAsDataURL(file);
+        });
 
 
         $(document).ready(function() {
@@ -182,12 +203,31 @@ if (!isset($_SESSION["is_logged"])) {
                                     console.log("category post işlemi başarısız: " + data);
                                 }
                             });
+                            var fd = new FormData();
+                            var file = $("#thumbnail").prop('files')[0];
+                            fd.append('thumbnail', file);
+
+                            $.ajax({
+                                url: '../../api/post/image/' + data.message,
+                                type: 'POST',
+                                data: fd,
+                                contentType: false,
+                                processData: false,
+                                success: function(response) {
+
+                                },
+                                error: function(xhr, textStatus, errorThrown) {
+                                    console.log("Dosya yükleme işlemi başarısız: " + errorThrown);
+                                }
+                            });
+
                         }
                     },
                     error: function(xhr, textStatus, errorThrown) {
                         console.log("Post işlemi başarısız: " + textStatus);
                     }
                 });
+
             });
         });
     </script>
