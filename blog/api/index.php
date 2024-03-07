@@ -97,6 +97,10 @@ api("GET", "post/:id", function ($params) {
     $controller = new PostController();
     $controller->getPostWithID($params);
 });
+api("GET", "post/page/:id", function ($params) {
+    $controller = new PostController();
+    $controller->getPostWithPage($params);
+});
 api("GET", "post", function () {
     $controller = new PostController();
     $controller->getAllPosts();

@@ -55,6 +55,14 @@ if (!isset($_SESSION["is_logged"])) {
                 </table>
 
             </div>
+            <div class="page-numbers">
+                <div class="number-row">
+                    <button class="page-number">
+                        1
+                    </button>
+
+                </div>
+            </div>
 
         </div>
 

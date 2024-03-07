@@ -114,6 +114,30 @@ class PostController extends BaseController
             Response::json(false, 'Post Getirilemedi! Hata: ' . $errorInfo[2], '', 404);
         }
     }
+    public function getPostWithPage($page)
+    {
+        $perPage = 10;
+        $start = ($page["id"] - 1) * $perPage;
+
+        $sql = 'SELECT COUNT(*) as total_post FROM posts';
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $total = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+
+        $sql = 'SELECT *, (SELECT COUNT(*) FROM posts) as total, (SELECT SUM(p.readed) FROM posts as p ) as total_readed FROM posts  LIMIT :start, :perPage';
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':start', $start, PDO::PARAM_INT);
+        $stmt->bindParam(':perPage', $perPage, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        Response::json(true, 'Tüm Gönderiler Getirildi!', [
+            'posts' => $result,
+            'total' => $total,
+            'perPage' => $perPage
+        ]);
+    }
 
     public function checkPostByID($id)
     {
