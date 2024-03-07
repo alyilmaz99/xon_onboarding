@@ -183,7 +183,8 @@ body {
 }
 .page-numbers {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  margin-left: 4%;
   margin-top: 2%;
   width: 100%;
   height: 4%;
@@ -203,6 +204,7 @@ body {
 .number-row {
   width: 100%;
   height: 100%;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -223,9 +225,7 @@ body {
   height: 20%;
   margin-left: 3%;
 }
-.post:hover {
-  cursor: pointer;
-}
+
 .post-list {
   display: flex;
   justify-content: flex-start;
@@ -252,6 +252,14 @@ body {
   font-weight: 400;
   padding-bottom: 2%;
   color: #474747;
+}
+.post-title a {
+  font-family: "Roboto Mono", monospace;
+  font-size: 19px;
+  font-weight: 400;
+  padding-bottom: 2%;
+  color: #474747;
+  text-decoration: none;
 }
 
 .post-hr {

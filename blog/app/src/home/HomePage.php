@@ -121,24 +121,31 @@
                         var postContainer = $(".posts");
                         posts.posts.forEach(function(post) {
                             var postDiv = $("<div class='post'></div>");
-                            var postList1 = $(" <div class='post-list'></div>");
-                            var postList2 = $(" <div class='post-list'></div>");
-                            var dateSpan = $("<span class='date'>" + post.publishing_date + "</span>");
-                            var postHr = $("<div class='post-hr'> <hr></div>")
-                            var postTitleSpan = $("<span class='post-title'>" + post.title + "</span>");
+                            var postList1 = $("<div class='post-list'></div>");
+                            var postList2 = $("<div class='post-list'></div>");
+                            var postLink = $("<a>").attr("href", post.slug).text(post.title);
+
+                            var postTitleSpan = $("<span class='post-title'></span>");
+                            postTitleSpan.append(postLink);
+
+                            var dateSpan = $("<span class='date'>" + post.created_at + "</span>");
+                            var postHr = $("<div class='post-hr'> <hr></div>");
+
                             postList1.append(dateSpan);
                             postList2.append(postTitleSpan);
+
                             postDiv.append(postList1);
                             postDiv.append(postList2);
                             postDiv.append(postHr);
+
                             postContainer.append(postDiv);
                         });
                         var pages = Math.ceil(posts.total_post / posts.perPage);
-
                         createPageNumbers(pages);
                     }
                 });
             }
+
 
 
             function createCategory() {
