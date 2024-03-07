@@ -57,9 +57,7 @@ if (!isset($_SESSION["is_logged"])) {
             </div>
             <div class="page-numbers">
                 <div class="number-row">
-                    <button class="page-number">
 
-                    </button>
 
                 </div>
             </div>
@@ -96,9 +94,15 @@ if (!isset($_SESSION["is_logged"])) {
                         if (status == "success" && data.status) {
 
                             posts = data.data;
-
-                            for (var i = 0; i < posts.perPage; i++) {
+                            var length = 0;
+                            if (posts.total_post < posts.perPage) {
+                                length = posts.total_post;
+                            } else {
+                                length = posts.perPage;
+                            }
+                            for (var i = 0; i < length; i++) {
                                 var post = posts.posts[i];
+
                                 var newRow = $("<tr>").addClass("post-tr-td");
                                 var activeDot = $("<span>").addClass("table-dot");
                                 var activeIcon = $("<i>").addClass("fas fa-dot-circle");
