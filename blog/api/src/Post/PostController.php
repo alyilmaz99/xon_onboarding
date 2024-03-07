@@ -5,6 +5,7 @@ namespace Api\Post;
 use DateTime;
 use Api\BaseController;
 use Api\Response;
+use Api\Helper;
 use PDO;
 use Api\Database;
 
@@ -84,6 +85,17 @@ class PostController extends BaseController
         } else {
             $errorInfo = $stmt->errorInfo();
             Response::json(false, 'Post Getirilemedi! Hata: ' . $errorInfo[2], '', 404);
+        }
+    }
+    public function uploadPostImage($params)
+    {
+        $this->getPost();
+        if (isset($_FILES['thumbnail'])) {
+            $help = new Helper();
+            $firstDest =  $help->uploadImage($params['id'], $_FILES['thumbnail'], "thumbnail", "posts");
+            Response::json(true, 'Resimler başariyla yüklendi!', $firstDest);
+        } else {
+            Response::json(false, 'Resim yakalanamadi!', '', 404);
         }
     }
     public function getAllPosts()

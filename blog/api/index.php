@@ -89,6 +89,10 @@ api("POST", "post", function () {
     $controller = new PostController();
     $controller->createPost();
 });
+api("POST", "post/image/:id", function ($params) {
+    $controller = new PostController();
+    $controller->uploadPostImage($params);
+});
 api("GET", "post/:id", function ($params) {
     $controller = new PostController();
     $controller->getPostWithID($params);
