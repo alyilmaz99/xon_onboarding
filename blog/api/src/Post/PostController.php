@@ -122,7 +122,7 @@ class PostController extends BaseController
         $sql = 'SELECT COUNT(*) as total_post FROM posts';
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
-        $total = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        $total = $stmt->fetch(PDO::FETCH_ASSOC)['total_post'];
 
         $sql = 'SELECT *, (SELECT COUNT(*) FROM posts) as total, (SELECT SUM(p.readed) FROM posts as p ) as total_readed FROM posts  LIMIT :start, :perPage';
         $stmt = $this->db->prepare($sql);
@@ -134,7 +134,7 @@ class PostController extends BaseController
 
         Response::json(true, 'Tüm Gönderiler Getirildi!', [
             'posts' => $result,
-            'total' => $total,
+            'total_post' => $total,
             'perPage' => $perPage
         ]);
     }

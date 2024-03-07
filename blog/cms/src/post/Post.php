@@ -58,7 +58,7 @@ if (!isset($_SESSION["is_logged"])) {
             <div class="page-numbers">
                 <div class="number-row">
                     <button class="page-number">
-                        1
+
                     </button>
 
                 </div>
@@ -79,16 +79,26 @@ if (!isset($_SESSION["is_logged"])) {
 
                     }
                 });
+
+                function createPageNumbers(totalPages) {
+                    var pageNumbersContainer = $(".page-numbers ");
+                    pageNumbersContainer.empty();
+                    for (var i = 1; i <= totalPages; i++) {
+                        var pageNumberButton = $("<button>").addClass("page-number").text(i);
+                        pageNumbersContainer.append(pageNumberButton);
+                    }
+                }
+
                 var post;
-                $(document).ready(function() {
-                    $.get("../api/post", function(data, status, xhr) {
+
+                function createPost(page) {
+                    $.get("../api/post/page/" + page, function(data, status, xhr) {
                         if (status == "success" && data.status) {
 
                             posts = data.data;
 
-                            for (var i = 0; i < posts.length; i++) {
-                                var post = posts[i];
-
+                            for (var i = 0; i < posts.perPage; i++) {
+                                var post = posts.posts[i];
                                 var newRow = $("<tr>").addClass("post-tr-td");
                                 var activeDot = $("<span>").addClass("table-dot");
                                 var activeIcon = $("<i>").addClass("fas fa-dot-circle");
@@ -124,11 +134,16 @@ if (!isset($_SESSION["is_logged"])) {
                                 actionButtons.append(activateButton);
                                 newRow.append(actionButtons);
                                 $(".post-table tbody").append(newRow);
-                            }
 
+
+                            }
+                            var pages = Math.ceil(posts.total_post / posts.perPage);
+
+                            createPageNumbers(pages);
 
                         }
                     }).done(function() {
+
 
                         $(document).on("click", ".activate-button", function() {
                             var postId = $(this).closest("tr").find("td").eq(0).text();
@@ -150,7 +165,7 @@ if (!isset($_SESSION["is_logged"])) {
                                         console.log("Post bulunamadı");
                                     } else {
                                         console.log("Post başarıyla Değiştirildi!");
-                                        location.reload();
+
                                     }
                                 },
                                 error: function(xhr, textStatus, errorThrown) {
@@ -160,6 +175,9 @@ if (!isset($_SESSION["is_logged"])) {
                         });
 
                     });
+                }
+                $(document).ready(function() {
+                    createPost(1);
                 });
 
                 $(document).on("click", ".delete-button", function() {
@@ -184,6 +202,15 @@ if (!isset($_SESSION["is_logged"])) {
                     var postId = $(this).closest("tr").find("td:first").text();
                     location.replace("post/edit/" + postId);
                 });
+                $(document).on("click", ".page-number", function() {
+                    var pageNumber = $(this).text();
+
+                    $(".post-table tbody").empty();
+                    createPost(pageNumber);
+
+
+                });
+
             });
         </script>
 </body>
